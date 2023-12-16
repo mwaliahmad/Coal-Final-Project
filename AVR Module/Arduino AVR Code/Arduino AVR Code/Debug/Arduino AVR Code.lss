@@ -1,12 +1,12 @@
 
-AVRASM ver. 2.2.8  D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm Sat Dec 16 14:26:39 2023
+AVRASM ver. 2.2.8  D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm Sat Dec 16 19:18:23 2023
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
-D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
-D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(2): Including file 'D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\delay.inc'
+D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
+D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(2): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
-D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
-D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(2): Including file 'D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\delay.inc'
+D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
+D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(2): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc'
                                  
                                  .include "m328pdef.inc"
                                  
@@ -1096,7 +1096,7 @@ D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(2): Incl
 000012 932f
 000013 938f
 000014 939f
-000015 e02f
+000015 e926
 000016 e38e
 000017 e99c
 000018 9701
@@ -1106,11 +1106,11 @@ D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(2): Incl
 00001c 0000
 00001d 919f
 00001e 918f
-00001f 912f                      	delay 150
+00001f 912f                      	delay 1500
 000020 932f
 000021 938f
 000022 939f
-000023 e02f
+000023 e926
 000024 e38e
 000025 e99c
 000026 9701
@@ -1120,7 +1120,7 @@ D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(2): Incl
 00002a 0000
 00002b 919f
 00002c 918f
-00002d 912f                      	delay 150
+00002d 912f                      	delay 1500
 00002e 982c                      	CBI PORTB, PB4 ; TURN BUZZER OFF
                                  	
 00002f 9a29                      	SBI PORTB, PB1	;RED LED ON
@@ -1149,16 +1149,16 @@ D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(2): Incl
 000044 c009                      	rjmp LEDS_OFF
                                  		
 000045 9b4d                      	SBIS PIND, PD5
-000046 c027                      	rjmp LOOP_LEDS
+000046 c017                      	rjmp LOOP_LEDS
                                  	
 000047 9b4c                      	SBIS PIND, PD4
-000048 c021                      	rjmp WHITE_LED
+000048 c011                      	rjmp WHITE_LED
                                  	
 000049 9b4b                      	SBIS PIND, PD3
-00004a c017                      	rjmp MAGENTA_LED
+00004a c00b                      	rjmp MAGENTA_LED
                                  	
 00004b 9b4a                      	SBIS PIND, PD2
-00004c c011                      	rjmp YELLOW_LED
+00004c c005                      	rjmp YELLOW_LED
 00004d cff5                      rjmp MAIN
                                  
                                  LEDS_OFF:
@@ -1167,376 +1167,352 @@ D:\Github\Coal Final Project\Arduino AVR Code\Arduino AVR Code\main.asm(2): Incl
 000050 982b                      	CBI PORTB, PB3	;BLUE LED OFF
 000051 cff1                      rjmp MAIN
                                  
-                                 RED_LED:
+                                 YELLOW_LED:
 000052 9a29                      	SBI PORTB, PB1	;RED LED ON
-000053 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000053 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
 000054 982b                      	CBI PORTB, PB3	;BLUE LED OFF
 000055 cfed                      rjmp MAIN
                                  
-                                 GREEN_LED:
-000056 9829                      	CBI PORTB, PB1	;RED LED OFF
-000057 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-000058 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+                                 MAGENTA_LED:
+000056 9a29                      	SBI PORTB, PB1	;RED LED ON
+000057 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000058 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
 000059 cfe9                      rjmp MAIN
                                  
-                                 BLUE_LED:
-00005a 9829                      	CBI PORTB, PB1	;RED LED OFF
-00005b 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+                                 WHITE_LED:
+00005a 9a29                      	SBI PORTB, PB1	;RED LED ON
+00005b 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
 00005c 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
 00005d cfe5                      rjmp MAIN
                                  
-                                 YELLOW_LED:
-00005e 9a29                      	SBI PORTB, PB1	;RED LED ON
-00005f 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-000060 982b                      	CBI PORTB, PB3	;BLUE LED OFF
-000061 cfe1                      rjmp MAIN
-                                 
-                                 MAGENTA_LED:
-000062 9a29                      	SBI PORTB, PB1	;RED LED ON
-000063 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000064 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
-000065 cfdd                      rjmp MAIN
-                                 
-                                 CYAN_LED:
-000066 9829                      	CBI PORTB, PB1	;RED LED OFF
-000067 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-000068 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
-000069 cfd9                      rjmp MAIN
-                                 
-                                 WHITE_LED:
-00006a 9a29                      	SBI PORTB, PB1	;RED LED ON
-00006b 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-00006c 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
-00006d cfd5                      rjmp MAIN
-                                 
                                  LOOP_LEDS:
-00006e 9a29                      	SBI PORTB, PB1	;RED LED ON
-00006f 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000070 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+00005e 9a29                      	SBI PORTB, PB1	;RED LED ON
+00005f 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000060 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  	
-000071 9b4e                      	SBIS PIND, PD6
-000072 cfd0                      	rjmp MAIN
-000073 9b4d                      	SBIS PIND, PD5
-000074 cfce                      	rjmp MAIN
-000075 9b4c                      	SBIS PIND, PD4
-000076 cfcc                      	rjmp MAIN
-000077 9b4b                      	SBIS PIND, PD3
-000078 cfca                      	rjmp MAIN
-000079 9b4a                      	SBIS PIND, PD2
+000061 9b4e                      	SBIS PIND, PD6
+000062 cfe0                      	rjmp MAIN
+000063 9b4d                      	SBIS PIND, PD5
+000064 cfde                      	rjmp MAIN
+000065 9b4c                      	SBIS PIND, PD4
+000066 cfdc                      	rjmp MAIN
+000067 9b4b                      	SBIS PIND, PD3
+000068 cfda                      	rjmp MAIN
+000069 9b4a                      	SBIS PIND, PD2
+00006a cfd8                      	rjmp MAIN
+                                 
+00006b 932f
+00006c 938f
+00006d 939f
+00006e e322
+00006f e38e
+000070 e99c
+000071 9701
+000072 f7f1
+000073 952a
+000074 f7d1
+000075 0000
+000076 919f
+000077 918f
+000078 912f                      	delay 500
+                                 
+000079 9b4e                      	SBIS PIND, PD6
 00007a cfc8                      	rjmp MAIN
+00007b 9b4d                      	SBIS PIND, PD5
+00007c cfc6                      	rjmp MAIN
+00007d 9b4c                      	SBIS PIND, PD4
+00007e cfc4                      	rjmp MAIN
+00007f 9b4b                      	SBIS PIND, PD3
+000080 cfc2                      	rjmp MAIN
+000081 9b4a                      	SBIS PIND, PD2
+000082 cfc0                      	rjmp MAIN
                                  
-00007b 932f
-00007c 938f
-00007d 939f
-00007e e322
-00007f e38e
-000080 e99c
-000081 9701
-000082 f7f1
-000083 952a
-000084 f7d1
-000085 0000
-000086 919f
-000087 918f
-000088 912f                      	delay 500
+000083 9829                      	CBI PORTB, PB1	;RED LED OFF
+000084 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+000085 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  
-000089 9b4e                      	SBIS PIND, PD6
-00008a cfb8                      	rjmp MAIN
-00008b 9b4d                      	SBIS PIND, PD5
-00008c cfb6                      	rjmp MAIN
-00008d 9b4c                      	SBIS PIND, PD4
-00008e cfb4                      	rjmp MAIN
-00008f 9b4b                      	SBIS PIND, PD3
-000090 cfb2                      	rjmp MAIN
-000091 9b4a                      	SBIS PIND, PD2
-000092 cfb0                      	rjmp MAIN
+000086 9b4e                      	SBIS PIND, PD6
+000087 cfbb                      	rjmp MAIN
+000088 9b4d                      	SBIS PIND, PD5
+000089 cfb9                      	rjmp MAIN
+00008a 9b4c                      	SBIS PIND, PD4
+00008b cfb7                      	rjmp MAIN
+00008c 9b4b                      	SBIS PIND, PD3
+00008d cfb5                      	rjmp MAIN
+00008e 9b4a                      	SBIS PIND, PD2
+00008f cfb3                      	rjmp MAIN
                                  
-000093 9829                      	CBI PORTB, PB1	;RED LED OFF
-000094 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-000095 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+000090 932f
+000091 938f
+000092 939f
+000093 e322
+000094 e38e
+000095 e99c
+000096 9701
+000097 f7f1
+000098 952a
+000099 f7d1
+00009a 0000
+00009b 919f
+00009c 918f
+00009d 912f                      	delay 500
                                  
-000096 9b4e                      	SBIS PIND, PD6
-000097 cfab                      	rjmp MAIN
-000098 9b4d                      	SBIS PIND, PD5
-000099 cfa9                      	rjmp MAIN
-00009a 9b4c                      	SBIS PIND, PD4
-00009b cfa7                      	rjmp MAIN
-00009c 9b4b                      	SBIS PIND, PD3
-00009d cfa5                      	rjmp MAIN
-00009e 9b4a                      	SBIS PIND, PD2
+00009e 9b4e                      	SBIS PIND, PD6
 00009f cfa3                      	rjmp MAIN
+0000a0 9b4d                      	SBIS PIND, PD5
+0000a1 cfa1                      	rjmp MAIN
+0000a2 9b4c                      	SBIS PIND, PD4
+0000a3 cf9f                      	rjmp MAIN
+0000a4 9b4b                      	SBIS PIND, PD3
+0000a5 cf9d                      	rjmp MAIN
+0000a6 9b4a                      	SBIS PIND, PD2
+0000a7 cf9b                      	rjmp MAIN
                                  
-0000a0 932f
-0000a1 938f
-0000a2 939f
-0000a3 e322
-0000a4 e38e
-0000a5 e99c
-0000a6 9701
-0000a7 f7f1
-0000a8 952a
-0000a9 f7d1
-0000aa 0000
-0000ab 919f
-0000ac 918f
-0000ad 912f                      	delay 500
+0000a8 9829                      	CBI PORTB, PB1	;RED LED OFF
+0000a9 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+0000aa 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-0000ae 9b4e                      	SBIS PIND, PD6
-0000af cf93                      	rjmp MAIN
-0000b0 9b4d                      	SBIS PIND, PD5
-0000b1 cf91                      	rjmp MAIN
-0000b2 9b4c                      	SBIS PIND, PD4
-0000b3 cf8f                      	rjmp MAIN
-0000b4 9b4b                      	SBIS PIND, PD3
-0000b5 cf8d                      	rjmp MAIN
-0000b6 9b4a                      	SBIS PIND, PD2
-0000b7 cf8b                      	rjmp MAIN
+0000ab 9b4e                      	SBIS PIND, PD6
+0000ac cf96                      	rjmp MAIN
+0000ad 9b4d                      	SBIS PIND, PD5
+0000ae cf94                      	rjmp MAIN
+0000af 9b4c                      	SBIS PIND, PD4
+0000b0 cf92                      	rjmp MAIN
+0000b1 9b4b                      	SBIS PIND, PD3
+0000b2 cf90                      	rjmp MAIN
+0000b3 9b4a                      	SBIS PIND, PD2
+0000b4 cf8e                      	rjmp MAIN
                                  
-0000b8 9829                      	CBI PORTB, PB1	;RED LED OFF
-0000b9 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-0000ba 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+0000b5 932f
+0000b6 938f
+0000b7 939f
+0000b8 e322
+0000b9 e38e
+0000ba e99c
+0000bb 9701
+0000bc f7f1
+0000bd 952a
+0000be f7d1
+0000bf 0000
+0000c0 919f
+0000c1 918f
+0000c2 912f                      	delay 500
                                  
-0000bb 9b4e                      	SBIS PIND, PD6
-0000bc cf86                      	rjmp MAIN
-0000bd 9b4d                      	SBIS PIND, PD5
-0000be cf84                      	rjmp MAIN
-0000bf 9b4c                      	SBIS PIND, PD4
-0000c0 cf82                      	rjmp MAIN
-0000c1 9b4b                      	SBIS PIND, PD3
-0000c2 cf80                      	rjmp MAIN
-0000c3 9b4a                      	SBIS PIND, PD2
+0000c3 9b4e                      	SBIS PIND, PD6
 0000c4 cf7e                      	rjmp MAIN
+0000c5 9b4d                      	SBIS PIND, PD5
+0000c6 cf7c                      	rjmp MAIN
+0000c7 9b4c                      	SBIS PIND, PD4
+0000c8 cf7a                      	rjmp MAIN
+0000c9 9b4b                      	SBIS PIND, PD3
+0000ca cf78                      	rjmp MAIN
+0000cb 9b4a                      	SBIS PIND, PD2
+0000cc cf76                      	rjmp MAIN
                                  
-0000c5 932f
-0000c6 938f
-0000c7 939f
-0000c8 e322
-0000c9 e38e
-0000ca e99c
-0000cb 9701
-0000cc f7f1
-0000cd 952a
-0000ce f7d1
-0000cf 0000
-0000d0 919f
-0000d1 918f
-0000d2 912f                      	delay 500
+0000cd 9a29                      	SBI PORTB, PB1	;RED LED ON
+0000ce 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+0000cf 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  
-0000d3 9b4e                      	SBIS PIND, PD6
-0000d4 cf6e                      	rjmp MAIN
-0000d5 9b4d                      	SBIS PIND, PD5
-0000d6 cf6c                      	rjmp MAIN
-0000d7 9b4c                      	SBIS PIND, PD4
-0000d8 cf6a                      	rjmp MAIN
-0000d9 9b4b                      	SBIS PIND, PD3
-0000da cf68                      	rjmp MAIN
-0000db 9b4a                      	SBIS PIND, PD2
-0000dc cf66                      	rjmp MAIN
+0000d0 9b4e                      	SBIS PIND, PD6
+0000d1 cf71                      	rjmp MAIN
+0000d2 9b4d                      	SBIS PIND, PD5
+0000d3 cf6f                      	rjmp MAIN
+0000d4 9b4c                      	SBIS PIND, PD4
+0000d5 cf6d                      	rjmp MAIN
+0000d6 9b4b                      	SBIS PIND, PD3
+0000d7 cf6b                      	rjmp MAIN
+0000d8 9b4a                      	SBIS PIND, PD2
+0000d9 cf69                      	rjmp MAIN
                                  
-0000dd 9a29                      	SBI PORTB, PB1	;RED LED ON
-0000de 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-0000df 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+0000da 932f
+0000db 938f
+0000dc 939f
+0000dd e322
+0000de e38e
+0000df e99c
+0000e0 9701
+0000e1 f7f1
+0000e2 952a
+0000e3 f7d1
+0000e4 0000
+0000e5 919f
+0000e6 918f
+0000e7 912f                      	delay 500
                                  
-0000e0 9b4e                      	SBIS PIND, PD6
-0000e1 cf61                      	rjmp MAIN
-0000e2 9b4d                      	SBIS PIND, PD5
-0000e3 cf5f                      	rjmp MAIN
-0000e4 9b4c                      	SBIS PIND, PD4
-0000e5 cf5d                      	rjmp MAIN
-0000e6 9b4b                      	SBIS PIND, PD3
-0000e7 cf5b                      	rjmp MAIN
-0000e8 9b4a                      	SBIS PIND, PD2
+0000e8 9b4e                      	SBIS PIND, PD6
 0000e9 cf59                      	rjmp MAIN
+0000ea 9b4d                      	SBIS PIND, PD5
+0000eb cf57                      	rjmp MAIN
+0000ec 9b4c                      	SBIS PIND, PD4
+0000ed cf55                      	rjmp MAIN
+0000ee 9b4b                      	SBIS PIND, PD3
+0000ef cf53                      	rjmp MAIN
+0000f0 9b4a                      	SBIS PIND, PD2
+0000f1 cf51                      	rjmp MAIN
                                  
-0000ea 932f
-0000eb 938f
-0000ec 939f
-0000ed e322
-0000ee e38e
-0000ef e99c
-0000f0 9701
-0000f1 f7f1
-0000f2 952a
-0000f3 f7d1
-0000f4 0000
-0000f5 919f
-0000f6 918f
-0000f7 912f                      	delay 500
+0000f2 9a29                      	SBI PORTB, PB1	;RED LED ON
+0000f3 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+0000f4 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-0000f8 9b4e                      	SBIS PIND, PD6
-0000f9 cf49                      	rjmp MAIN
-0000fa 9b4d                      	SBIS PIND, PD5
-0000fb cf47                      	rjmp MAIN
-0000fc 9b4c                      	SBIS PIND, PD4
-0000fd cf45                      	rjmp MAIN
-0000fe 9b4b                      	SBIS PIND, PD3
-0000ff cf43                      	rjmp MAIN
-000100 9b4a                      	SBIS PIND, PD2
-000101 cf41                      	rjmp MAIN
+0000f5 9b4e                      	SBIS PIND, PD6
+0000f6 cf4c                      	rjmp MAIN
+0000f7 9b4d                      	SBIS PIND, PD5
+0000f8 cf4a                      	rjmp MAIN
+0000f9 9b4c                      	SBIS PIND, PD4
+0000fa cf48                      	rjmp MAIN
+0000fb 9b4b                      	SBIS PIND, PD3
+0000fc cf46                      	rjmp MAIN
+0000fd 9b4a                      	SBIS PIND, PD2
+0000fe cf44                      	rjmp MAIN
                                  
-000102 9a29                      	SBI PORTB, PB1	;RED LED ON
-000103 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000104 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+0000ff 932f
+000100 938f
+000101 939f
+000102 e322
+000103 e38e
+000104 e99c
+000105 9701
+000106 f7f1
+000107 952a
+000108 f7d1
+000109 0000
+00010a 919f
+00010b 918f
+00010c 912f                      	delay 500
                                  
-000105 9b4e                      	SBIS PIND, PD6
-000106 cf3c                      	rjmp MAIN
-000107 9b4d                      	SBIS PIND, PD5
-000108 cf3a                      	rjmp MAIN
-000109 9b4c                      	SBIS PIND, PD4
-00010a cf38                      	rjmp MAIN
-00010b 9b4b                      	SBIS PIND, PD3
-00010c cf36                      	rjmp MAIN
-00010d 9b4a                      	SBIS PIND, PD2
+00010d 9b4e                      	SBIS PIND, PD6
 00010e cf34                      	rjmp MAIN
+00010f 9b4d                      	SBIS PIND, PD5
+000110 cf32                      	rjmp MAIN
+000111 9b4c                      	SBIS PIND, PD4
+000112 cf30                      	rjmp MAIN
+000113 9b4b                      	SBIS PIND, PD3
+000114 cf2e                      	rjmp MAIN
+000115 9b4a                      	SBIS PIND, PD2
+000116 cf2c                      	rjmp MAIN
                                  
-00010f 932f
-000110 938f
-000111 939f
-000112 e322
-000113 e38e
-000114 e99c
-000115 9701
-000116 f7f1
-000117 952a
-000118 f7d1
-000119 0000
-00011a 919f
-00011b 918f
-00011c 912f                      	delay 500
+000117 9a29                      	SBI PORTB, PB1	;RED LED ON
+000118 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000119 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-00011d 9b4e                      	SBIS PIND, PD6
-00011e cf24                      	rjmp MAIN
-00011f 9b4d                      	SBIS PIND, PD5
-000120 cf22                      	rjmp MAIN
-000121 9b4c                      	SBIS PIND, PD4
-000122 cf20                      	rjmp MAIN
-000123 9b4b                      	SBIS PIND, PD3
-000124 cf1e                      	rjmp MAIN
-000125 9b4a                      	SBIS PIND, PD2
-000126 cf1c                      	rjmp MAIN
+00011a 9b4e                      	SBIS PIND, PD6
+00011b cf27                      	rjmp MAIN
+00011c 9b4d                      	SBIS PIND, PD5
+00011d cf25                      	rjmp MAIN
+00011e 9b4c                      	SBIS PIND, PD4
+00011f cf23                      	rjmp MAIN
+000120 9b4b                      	SBIS PIND, PD3
+000121 cf21                      	rjmp MAIN
+000122 9b4a                      	SBIS PIND, PD2
+000123 cf1f                      	rjmp MAIN
                                  
-000127 9a29                      	SBI PORTB, PB1	;RED LED ON
-000128 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000129 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+000124 932f
+000125 938f
+000126 939f
+000127 e322
+000128 e38e
+000129 e99c
+00012a 9701
+00012b f7f1
+00012c 952a
+00012d f7d1
+00012e 0000
+00012f 919f
+000130 918f
+000131 912f                      	delay 500
                                  
-00012a 9b4e                      	SBIS PIND, PD6
-00012b cf17                      	rjmp MAIN
-00012c 9b4d                      	SBIS PIND, PD5
-00012d cf15                      	rjmp MAIN
-00012e 9b4c                      	SBIS PIND, PD4
-00012f cf13                      	rjmp MAIN
-000130 9b4b                      	SBIS PIND, PD3
-000131 cf11                      	rjmp MAIN
-000132 9b4a                      	SBIS PIND, PD2
+000132 9b4e                      	SBIS PIND, PD6
 000133 cf0f                      	rjmp MAIN
+000134 9b4d                      	SBIS PIND, PD5
+000135 cf0d                      	rjmp MAIN
+000136 9b4c                      	SBIS PIND, PD4
+000137 cf0b                      	rjmp MAIN
+000138 9b4b                      	SBIS PIND, PD3
+000139 cf09                      	rjmp MAIN
+00013a 9b4a                      	SBIS PIND, PD2
+00013b cf07                      	rjmp MAIN
                                  
-000134 932f
-000135 938f
-000136 939f
-000137 e322
-000138 e38e
-000139 e99c
-00013a 9701
-00013b f7f1
-00013c 952a
-00013d f7d1
-00013e 0000
-00013f 919f
-000140 918f
-000141 912f                      	delay 500
+00013c 9a29                      	SBI PORTB, PB1	;RED LED ON
+00013d 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+00013e 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-000142 9b4e                      	SBIS PIND, PD6
-000143 ceff                      	rjmp MAIN
-000144 9b4d                      	SBIS PIND, PD5
-000145 cefd                      	rjmp MAIN
-000146 9b4c                      	SBIS PIND, PD4
-000147 cefb                      	rjmp MAIN
-000148 9b4b                      	SBIS PIND, PD3
-000149 cef9                      	rjmp MAIN
-00014a 9b4a                      	SBIS PIND, PD2
-00014b cef7                      	rjmp MAIN
+00013f 9b4e                      	SBIS PIND, PD6
+000140 cf02                      	rjmp MAIN
+000141 9b4d                      	SBIS PIND, PD5
+000142 cf00                      	rjmp MAIN
+000143 9b4c                      	SBIS PIND, PD4
+000144 cefe                      	rjmp MAIN
+000145 9b4b                      	SBIS PIND, PD3
+000146 cefc                      	rjmp MAIN
+000147 9b4a                      	SBIS PIND, PD2
+000148 cefa                      	rjmp MAIN
                                  
-00014c 9a29                      	SBI PORTB, PB1	;RED LED ON
-00014d 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-00014e 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+000149 932f
+00014a 938f
+00014b 939f
+00014c e322
+00014d e38e
+00014e e99c
+00014f 9701
+000150 f7f1
+000151 952a
+000152 f7d1
+000153 0000
+000154 919f
+000155 918f
+000156 912f                      	delay 500
                                  
-00014f 9b4e                      	SBIS PIND, PD6
-000150 cef2                      	rjmp MAIN
-000151 9b4d                      	SBIS PIND, PD5
-000152 cef0                      	rjmp MAIN
-000153 9b4c                      	SBIS PIND, PD4
-000154 ceee                      	rjmp MAIN
-000155 9b4b                      	SBIS PIND, PD3
-000156 ceec                      	rjmp MAIN
-000157 9b4a                      	SBIS PIND, PD2
+000157 9b4e                      	SBIS PIND, PD6
 000158 ceea                      	rjmp MAIN
+000159 9b4d                      	SBIS PIND, PD5
+00015a cee8                      	rjmp MAIN
+00015b 9b4c                      	SBIS PIND, PD4
+00015c cee6                      	rjmp MAIN
+00015d 9b4b                      	SBIS PIND, PD3
+00015e cee4                      	rjmp MAIN
+00015f 9b4a                      	SBIS PIND, PD2
+000160 cee2                      	rjmp MAIN
                                  
-000159 932f
-00015a 938f
-00015b 939f
-00015c e322
-00015d e38e
-00015e e99c
-00015f 9701
-000160 f7f1
-000161 952a
-000162 f7d1
-000163 0000
-000164 919f
-000165 918f
-000166 912f                      	delay 500
+000161 9829                      	CBI PORTB, PB1	;RED LED OFF
+000162 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000163 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  
-000167 9b4e                      	SBIS PIND, PD6
-000168 ceda                      	rjmp MAIN
-000169 9b4d                      	SBIS PIND, PD5
-00016a ced8                      	rjmp MAIN
-00016b 9b4c                      	SBIS PIND, PD4
-00016c ced6                      	rjmp MAIN
-00016d 9b4b                      	SBIS PIND, PD3
-00016e ced4                      	rjmp MAIN
-00016f 9b4a                      	SBIS PIND, PD2
-000170 ced2                      	rjmp MAIN
+000164 9b4e                      	SBIS PIND, PD6
+000165 cedd                      	rjmp MAIN
+000166 9b4d                      	SBIS PIND, PD5
+000167 cedb                      	rjmp MAIN
+000168 9b4c                      	SBIS PIND, PD4
+000169 ced9                      	rjmp MAIN
+00016a 9b4b                      	SBIS PIND, PD3
+00016b ced7                      	rjmp MAIN
+00016c 9b4a                      	SBIS PIND, PD2
+00016d ced5                      	rjmp MAIN
                                  
-000171 9829                      	CBI PORTB, PB1	;RED LED OFF
-000172 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000173 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+00016e 932f
+00016f 938f
+000170 939f
+000171 e322
+000172 e38e
+000173 e99c
+000174 9701
+000175 f7f1
+000176 952a
+000177 f7d1
+000178 0000
+000179 919f
+00017a 918f
+00017b 912f                      	delay 500
                                  
-000174 9b4e                      	SBIS PIND, PD6
-000175 cecd                      	rjmp MAIN
-000176 9b4d                      	SBIS PIND, PD5
-000177 cecb                      	rjmp MAIN
-000178 9b4c                      	SBIS PIND, PD4
-000179 cec9                      	rjmp MAIN
-00017a 9b4b                      	SBIS PIND, PD3
-00017b cec7                      	rjmp MAIN
-00017c 9b4a                      	SBIS PIND, PD2
+00017c 9b4e                      	SBIS PIND, PD6
 00017d cec5                      	rjmp MAIN
-                                 
-00017e 932f
-00017f 938f
-000180 939f
-000181 e322
-000182 e38e
-000183 e99c
-000184 9701
-000185 f7f1
-000186 952a
-000187 f7d1
-000188 0000
-000189 919f
-00018a 918f
-00018b 912f                      	delay 500
-                                 
-00018c 9b4e                      	SBIS PIND, PD6
-00018d ceb5                      	rjmp MAIN
-00018e 9b4d                      	SBIS PIND, PD5
-00018f ceb3                      	rjmp MAIN
-000190 9b4c                      	SBIS PIND, PD4
-000191 ceb1                      	rjmp MAIN
-000192 9b4b                      	SBIS PIND, PD3
-000193 ceaf                      	rjmp MAIN
-000194 9b4a                      	SBIS PIND, PD2
-000195 cead                      	rjmp MAIN
+00017e 9b4d                      	SBIS PIND, PD5
+00017f cec3                      	rjmp MAIN
+000180 9b4c                      	SBIS PIND, PD4
+000181 cec1                      	rjmp MAIN
+000182 9b4b                      	SBIS PIND, PD3
+000183 cebf                      	rjmp MAIN
+000184 9b4a                      	SBIS PIND, PD2
+000185 cebd                      	rjmp MAIN
                                  	 
 
 
@@ -1568,7 +1544,7 @@ andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0
 brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :  22 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :  36 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :  29 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   0 cpse  :   0 dec   :  11 eor   :   0 fmul  :   0 fmuls :   0 
@@ -1576,8 +1552,8 @@ fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   0
 ld    :   0 ldd   :   0 ldi   :  33 lds   :   0 lpm   :   0 lsl   :   0 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :  11 or    :   0 ori   :   0 out   :   0 pop   :  33 
-push  :  33 rcall :   0 ret   :   0 reti  :   0 rjmp  :  95 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :  37 sbic  :   0 sbis  :  85 
+push  :  33 rcall :   0 ret   :   0 reti  :   0 rjmp  :  91 rol   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :  32 sbic  :   0 sbis  :  85 
 sbiw  :  11 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
@@ -1587,7 +1563,7 @@ Instructions used: 11 out of 113 (9.7%)
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00032e    814      0    814   32768   2.5%
+[.cseg] 0x000000 0x00030e    782      0    782   32768   2.4%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

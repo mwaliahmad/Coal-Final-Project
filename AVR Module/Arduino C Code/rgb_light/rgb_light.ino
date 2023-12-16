@@ -5,7 +5,7 @@ const int bluePin = 11;   // Connect the blue pin of RGB LED to digital pin 11
 
 const int buttonPins[] = { 2, 3, 4, 5, 6 };  // Button pins
 
-const int buzzerPin = 7;  // Connect the buzzer to digital pin 7
+const int buzzerPin = 12;  // Connect the buzzer to digital pin 7
 
 void setup() {
   // Initialize RGB LED pins as outputs

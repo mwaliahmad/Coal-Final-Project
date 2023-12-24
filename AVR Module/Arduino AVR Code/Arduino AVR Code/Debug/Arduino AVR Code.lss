@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm Sat Dec 16 19:18:23 2023
+AVRASM ver. 2.2.8  D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm Sun Dec 24 13:06:01 2023
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
@@ -1391,8 +1391,8 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
 000115 9b4a                      	SBIS PIND, PD2
 000116 cf2c                      	rjmp MAIN
                                  
-000117 9a29                      	SBI PORTB, PB1	;RED LED ON
-000118 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000117 9829                      	CBI PORTB, PB1	;RED LED OFF
+000118 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
 000119 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
 00011a 9b4e                      	SBIS PIND, PD6

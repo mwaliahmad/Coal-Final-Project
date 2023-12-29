@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <HTTPClient.h>
 
 // WiFi
 const char *ssid = "OPPO A5 2020";   // Enter your Wi-Fi name
@@ -12,20 +13,23 @@ const char *mqtt_username = "";
 const char *mqtt_password = "";
 const int mqtt_port = 1883;
 
+// ThingSpeak
+const char *thingSpeakApiKey = "BLVZ15542DF9TI7K";
+const char *thingSpeakUrl = "http://api.thingspeak.com/update?api_key=";
+
 WiFiClient espClient;
 PubSubClient client(espClient);
 
 void setup() {
   // Set software serial baud to 115200;
   Serial.begin(115200);
-
   WiFi.mode(WIFI_STA);
   WiFi.onEvent(ConnectedToAP_Handler, ARDUINO_EVENT_WIFI_STA_CONNECTED);
   WiFi.onEvent(GotIP_Handler, ARDUINO_EVENT_WIFI_STA_GOT_IP);
   WiFi.onEvent(WiFi_Disconnected_Handler, ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
   WiFi.begin(ssid, password);
   Serial.println("Connecting to WiFi Network ..");
-  //connecting to a mqtt broker
+  //connecting to an MQTT broker
   client.setServer(mqtt_broker, mqtt_port);
   client.setCallback(callback);
   while (!client.connected()) {
@@ -40,27 +44,22 @@ void setup() {
       delay(2000);
     }
   }
-  // Publish and subscribe
-  // client.publish(topic, "Hi, I'm ESP32 ^^");
+
   client.subscribe(topic);
 }
 
 void callback(char *topic, byte *payload, unsigned int length) {
-  // Serial.print("Message arrived in topic: ");
-  // Serial.println(topic);
-  // Serial.print("Message:");
   for (int i = 0; i < length; i++) {
-    // Serial.print((char)payload[i]);
     Serial.write((char)payload[i]);
+    char value = (char)payload[i];
+    sendDataToThingSpeak(String(value));  // Send data to ThingSpeak
   }
   Serial.println();
 }
 
-
 void loop() {
   client.loop();
-  // client.publish(topic,"Hello how are you??");
-  delay(5000);
+  delay(3000);
 }
 
 void ConnectedToAP_Handler(WiFiEvent_t wifi_event, WiFiEventInfo_t wifi_info) {
@@ -76,4 +75,41 @@ void WiFi_Disconnected_Handler(WiFiEvent_t wifi_event, WiFiEventInfo_t wifi_info
   Serial.println("Disconnected From WiFi Network");
   // Attempt Re-Connection
   WiFi.begin(ssid, password);
+}
+
+void sendDataToThingSpeak(String data) {
+  // Create a HTTP client object
+  HTTPClient http;
+  // Construct the ThingSpeak URL with your API key and data
+  String url = "";
+
+  if (data == "1") {
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "1" + "&field3=" + "0";
+  }
+  if (data == "2") {
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "0" + "&field3=" + "1";
+  }
+  if (data == "3") {
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "1" + "&field3=" + "1";
+  }
+  if (data == "5") {
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "0" + "&field2=" + "0" + "&field3=" + "0";
+  }
+
+  // Begin the HTTP request
+  http.begin(url);
+
+  // Send the HTTP GET request
+  int httpCode = http.GET();
+
+  // Check the HTTP response code
+  if (httpCode == HTTP_CODE_OK) {
+    Serial.println("Data sent to ThingSpeak successfully");
+  } else {
+    Serial.print("Failed to send data to ThingSpeak. HTTP code: ");
+    Serial.println(httpCode);
+  }
+
+  // End the HTTP request
+  http.end();
 }

@@ -1,16 +1,16 @@
 
-AVRASM ver. 2.2.8  D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm Sat Dec 30 14:18:26 2023
+AVRASM ver. 2.2.8  D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\main.asm Sat Dec 30 14:50:46 2023
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(6): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(7): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\UART_Macros.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(8): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc'
+D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\main.asm(9): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
+D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\main.asm(10): Including file 'D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\UART_Macros.inc'
+D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\main.asm(11): Including file 'D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\delay.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(6): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(7): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\UART_Macros.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(8): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc'
+D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\main.asm(9): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
+D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\main.asm(10): Including file 'D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\UART_Macros.inc'
+D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\main.asm(11): Including file 'D:\Github\Coal Final Project\IoT Module\Arduino\Arduino\delay.inc'
                                  
-                                 ; Arduino AVR Code.asm
+                                 ;
                                  
                                  ;***** Created: 2011-02-09 12:03 ******* Source: ATmega328P.xml **********
                                  ;*************************************************************************
@@ -991,9 +991,12 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
                                  
                                  ; ***** END OF FILE ******************************************************
                                  
+                                 ; Arduino.asm
                                  ;
-                                 ; Created: 20/12/2023 13:27:22 pm
+                                 ; Created: 30/12/2023 2:36:44 pm
                                  ; Author : Wali
+                                 ;
+                                 
                                  
                                  .include "m328pdef.inc"
                                  
@@ -1041,22 +1044,12 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
                                  ; ***** END OF FILE ******************************************************
                                  .include "UART_Macros.inc"
                                  
-                                 ; UART Serial Read/Write Macros
-                                 ;-------------------------------------------
-                                 
-                                 ; [List of all the available macros in this file]
-                                 ;	Serial_begin
-                                 ;	Serial_writeChar
-                                 ;	Serial_writeReg
-                                 ;	Serial_writeReg_ASCII
-                                 ;	Serial_writeNewLine
-                                 ;	Serial_writeStr
-                                 ;	Serial_writeBuffer
-                                 ;	Serial_writeBuffer_ASCII
-                                 ;	Serial_read
-                                 ;	Serial_readStr		pending
-                                 
-                                 ; Macro to read a single character from the UART
+                                  * UART_Macros.inc
+                                  *
+                                  *  Created: 30/12/2023 2:41:19 pm
+                                  *   Author: Wali
+                                  */ 
+                                  ; Macro to read a single character from the UART
                                  ; Inputs: register to hold the received character
                                  ; Outputs: none
                                  ; Working: receives characters via UART and stores in a register
@@ -1074,6 +1067,24 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
                                  	; restore the state of R16 and return
                                  	POP             R16
                                  .endmacro
+                                 
+                                 ;-------------------------------------------
+                                 ; UART Serial Read/Write Macros
+                                 ;-------------------------------------------
+                                 
+                                 ; [List of all the available macros in this file]
+                                 ;	Serial_begin
+                                 ;	Serial_writeChar
+                                 ;	Serial_writeReg
+                                 ;	Serial_writeReg_ASCII
+                                 ;	Serial_writeNewLine
+                                 ;	Serial_writeStr
+                                 ;	Serial_writeBuffer
+                                 ;	Serial_writeBuffer_ASCII
+                                 ;	Serial_read
+                                 ;	Serial_readStr		pending
+                                 
+                                 
                                  
                                  ; Macro to initializes the UART to 9600 BAUD at a frequency of 16 MHz (for Arduino UNO ATmega328p)
                                  ; Inputs: none
@@ -1543,7 +1554,7 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
                                  
                                   * delay.inc
                                   *
-                                  *  Created: 16/12/2023 10:57:51 am
+                                  *  Created: 30/12/2023 2:40:06 pm
                                   *   Author: Wali
                                   */ 
                                   .macro delay
@@ -1645,9 +1656,9 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
 000047 919f
 000048 918f
 000049 912f                      	delay 2000
-00004a 9829                      	CBI PORTB, PB1	;RED LED OFF
-00004b 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-00004c 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+00004a 9829                      	CBI PORTB, PB1	;RED LED ON
+00004b 982a                      	CBI PORTB, PB2	;GREEN LED ON
+00004c 982b                      	CBI PORTB, PB3	;BLUE LED ON
                                  
                                  MAIN:
 00004d 930f
@@ -1657,7 +1668,7 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
 000052 9150 00c6
 000054 910f                      	Serial_readChar UART_CHAR
                                  
-                                 MID:	
+                                 MID:
 000055 3351                      	CPI UART_CHAR, '1'	; Yellow COLOR
 000056 f069                          BREQ YELLOW_LED
                                  
@@ -1672,32 +1683,31 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
                                  
 00005d 3355                      	CPI UART_CHAR, '5'  ; OFF LEDs
 00005e f009                          BREQ LEDS_OFF
-                                 
 00005f cfed                      rjmp MAIN
                                  
                                  LEDS_OFF:
 000060 9829                      	CBI PORTB, PB1	;RED LED OFF
 000061 982a                      	CBI PORTB, PB2	;GREEN LED OFF
 000062 982b                      	CBI PORTB, PB3	;BLUE LED OFF
-000063 cfe9                          rjmp MAIN
+000063 cfe9                      rjmp MAIN
                                  
                                  YELLOW_LED:
 000064 9a29                      	SBI PORTB, PB1	;RED LED ON
 000065 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
 000066 982b                      	CBI PORTB, PB3	;BLUE LED OFF
-000067 cfe5                          rjmp MAIN
+000067 cfe5                      rjmp MAIN
                                  
                                  MAGENTA_LED:
 000068 9a29                      	SBI PORTB, PB1	;RED LED ON
 000069 982a                      	CBI PORTB, PB2	;GREEN LED OFF
 00006a 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
-00006b cfe1                          rjmp MAIN
+00006b cfe1                      rjmp MAIN
                                  
                                  WHITE_LED:
 00006c 9a29                      	SBI PORTB, PB1	;RED LED ON
 00006d 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
 00006e 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
-00006f cfdd                          rjmp MAIN
+00006f cfdd                      rjmp MAIN
                                  
                                  LOOP_LEDS:
 000070 930f
@@ -1716,168 +1726,171 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
 00007c 3353                      	CPI UART_CHAR, '3'	; White COLOR
 00007d f2b9                          BREQ MID
                                  
-00007e 3355                      	CPI UART_CHAR, '5'  ; OFF LEDs
+00007e 3354                      	CPI UART_CHAR, '4'  ; Loop LEDs
 00007f f2a9                          BREQ MID
                                  
-000080 9a29                      	SBI PORTB, PB1	;RED LED ON
-000081 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000082 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+000080 3355                      	CPI UART_CHAR, '5'  ; OFF LEDs
+000081 f299                          BREQ MID
                                  
-000083 932f
-000084 938f
-000085 939f
-000086 e322
-000087 e38e
-000088 e99c
-000089 9701
-00008a f7f1
-00008b 952a
-00008c f7d1
-00008d 0000
-00008e 919f
-00008f 918f
-000090 912f                      	delay 500
+000082 9a29                      	SBI PORTB, PB1	;RED LED ON
+000083 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000084 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+                                 	
+000085 932f
+000086 938f
+000087 939f
+000088 e322
+000089 e38e
+00008a e99c
+00008b 9701
+00008c f7f1
+00008d 952a
+00008e f7d1
+00008f 0000
+000090 919f
+000091 918f
+000092 912f                      	delay 500
                                  
-000091 9829                      	CBI PORTB, PB1	;RED LED OFF
-000092 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-000093 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+000093 9829                      	CBI PORTB, PB1	;RED LED OFF
+000094 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+000095 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  
-000094 932f
-000095 938f
-000096 939f
-000097 e322
-000098 e38e
-000099 e99c
-00009a 9701
-00009b f7f1
-00009c 952a
-00009d f7d1
-00009e 0000
-00009f 919f
-0000a0 918f
-0000a1 912f                      	delay 500
+000096 932f
+000097 938f
+000098 939f
+000099 e322
+00009a e38e
+00009b e99c
+00009c 9701
+00009d f7f1
+00009e 952a
+00009f f7d1
+0000a0 0000
+0000a1 919f
+0000a2 918f
+0000a3 912f                      	delay 500
                                  
-0000a2 9829                      	CBI PORTB, PB1	;RED LED OFF
-0000a3 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-0000a4 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+0000a4 9829                      	CBI PORTB, PB1	;RED LED OFF
+0000a5 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+0000a6 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-0000a5 932f
-0000a6 938f
-0000a7 939f
-0000a8 e322
-0000a9 e38e
-0000aa e99c
-0000ab 9701
-0000ac f7f1
-0000ad 952a
-0000ae f7d1
-0000af 0000
-0000b0 919f
-0000b1 918f
-0000b2 912f                      	delay 500
+0000a7 932f
+0000a8 938f
+0000a9 939f
+0000aa e322
+0000ab e38e
+0000ac e99c
+0000ad 9701
+0000ae f7f1
+0000af 952a
+0000b0 f7d1
+0000b1 0000
+0000b2 919f
+0000b3 918f
+0000b4 912f                      	delay 500
                                  
-0000b3 9a29                      	SBI PORTB, PB1	;RED LED ON
-0000b4 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-0000b5 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+0000b5 9a29                      	SBI PORTB, PB1	;RED LED ON
+0000b6 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+0000b7 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  
-0000b6 932f
-0000b7 938f
-0000b8 939f
-0000b9 e322
-0000ba e38e
-0000bb e99c
-0000bc 9701
-0000bd f7f1
-0000be 952a
-0000bf f7d1
-0000c0 0000
-0000c1 919f
-0000c2 918f
-0000c3 912f                      	delay 500
+0000b8 932f
+0000b9 938f
+0000ba 939f
+0000bb e322
+0000bc e38e
+0000bd e99c
+0000be 9701
+0000bf f7f1
+0000c0 952a
+0000c1 f7d1
+0000c2 0000
+0000c3 919f
+0000c4 918f
+0000c5 912f                      	delay 500
                                  
-0000c4 9a29                      	SBI PORTB, PB1	;RED LED ON
-0000c5 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-0000c6 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+0000c6 9a29                      	SBI PORTB, PB1	;RED LED ON
+0000c7 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+0000c8 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-0000c7 932f
-0000c8 938f
-0000c9 939f
-0000ca e322
-0000cb e38e
-0000cc e99c
-0000cd 9701
-0000ce f7f1
-0000cf 952a
-0000d0 f7d1
-0000d1 0000
-0000d2 919f
-0000d3 918f
-0000d4 912f                      	delay 500
+0000c9 932f
+0000ca 938f
+0000cb 939f
+0000cc e322
+0000cd e38e
+0000ce e99c
+0000cf 9701
+0000d0 f7f1
+0000d1 952a
+0000d2 f7d1
+0000d3 0000
+0000d4 919f
+0000d5 918f
+0000d6 912f                      	delay 500
                                  
-0000d5 9829                      	CBI PORTB, PB1	;RED LED OFF
-0000d6 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-0000d7 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+0000d7 9829                      	CBI PORTB, PB1	;RED LED OFF
+0000d8 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+0000d9 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-0000d8 932f
-0000d9 938f
-0000da 939f
-0000db e322
-0000dc e38e
-0000dd e99c
-0000de 9701
-0000df f7f1
-0000e0 952a
-0000e1 f7d1
-0000e2 0000
-0000e3 919f
-0000e4 918f
-0000e5 912f                      	delay 500
+0000da 932f
+0000db 938f
+0000dc 939f
+0000dd e322
+0000de e38e
+0000df e99c
+0000e0 9701
+0000e1 f7f1
+0000e2 952a
+0000e3 f7d1
+0000e4 0000
+0000e5 919f
+0000e6 918f
+0000e7 912f                      	delay 500
                                  
-0000e6 9a29                      	SBI PORTB, PB1	;RED LED ON
-0000e7 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-0000e8 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+0000e8 9a29                      	SBI PORTB, PB1	;RED LED ON
+0000e9 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+0000ea 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-0000e9 932f
-0000ea 938f
-0000eb 939f
-0000ec e322
-0000ed e38e
-0000ee e99c
-0000ef 9701
-0000f0 f7f1
-0000f1 952a
-0000f2 f7d1
-0000f3 0000
-0000f4 919f
-0000f5 918f
-0000f6 912f                      	delay 500
+0000eb 932f
+0000ec 938f
+0000ed 939f
+0000ee e322
+0000ef e38e
+0000f0 e99c
+0000f1 9701
+0000f2 f7f1
+0000f3 952a
+0000f4 f7d1
+0000f5 0000
+0000f6 919f
+0000f7 918f
+0000f8 912f                      	delay 500
+                                 	
+0000f9 9829                      	CBI PORTB, PB1	;RED LED OFF
+0000fa 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+0000fb 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  
-0000f7 930f
-0000f8 9100 00c0
-0000fa ff07
-0000fb cffc
-0000fc 9150 00c6
-0000fe 910f                      	Serial_readChar UART_CHAR
+0000fc 930f
+0000fd 9100 00c0
+0000ff ff07
+000100 cffc
+000101 9150 00c6
+000103 910f                      	Serial_readChar UART_CHAR
                                  
-0000ff 9829                      	CBI PORTB, PB1	;RED LED OFF
-000100 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000101 982b                      	CBI PORTB, PB3	;BLUE LED OFF
-                                 
-000102 932f
-000103 938f
-000104 939f
-000105 e322
-000106 e38e
-000107 e99c
-000108 9701
-000109 f7f1
-00010a 952a
-00010b f7d1
-00010c 0000
-00010d 919f
-00010e 918f
-00010f 912f                      	delay 500
-                                     
+000104 932f
+000105 938f
+000106 939f
+000107 e322
+000108 e38e
+000109 e99c
+00010a 9701
+00010b f7f1
+00010c 952a
+00010d f7d1
+00010e 0000
+00010f 919f
+000110 918f
+000111 912f                      	delay 500
+                                 	 
 
 
 RESOURCE USE INFORMATION
@@ -1898,20 +1911,20 @@ counted separately from r26..r31 here.
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
 r13:   0 r14:   0 r15:   0 r16:  20 r17:   4 r18:  44 r19:   0 r20:   0 
-r21:  12 r22:   0 r23:   0 r24:  44 r25:  33 r26:   0 r27:   0 r28:   0 
+r21:  13 r22:   0 r23:   0 r24:  44 r25:  33 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 6 out of 35 (17.1%)
 
 "ATmega328P" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   0 brcs  :   0 break :   0 breq  :   9 brge  :   0 brhc  :   0 
+brcc  :   0 brcs  :   0 break :   0 breq  :  10 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :  22 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
 brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :  26 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   9 cpse  :   0 dec   :  11 eor   :   0 fmul  :   0 fmuls :   0 
+cpi   :  10 cpse  :   0 dec   :  11 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   0 
 ld    :   0 ldd   :   0 ldi   :  37 lds   :   6 lpm   :   0 lsl   :   0 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
@@ -1927,7 +1940,7 @@ Instructions used: 15 out of 113 (13.3%)
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000222    546      0    546   32768   1.7%
+[.cseg] 0x000000 0x000226    550      0    550   32768   1.7%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

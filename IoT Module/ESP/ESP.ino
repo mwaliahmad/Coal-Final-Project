@@ -21,8 +21,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 void setup() {
-  // Set software serial baud to 115200;
-  Serial.begin(115200);
+  Serial.begin(9600);
   WiFi.mode(WIFI_STA);
   WiFi.onEvent(ConnectedToAP_Handler, ARDUINO_EVENT_WIFI_STA_CONNECTED);
   WiFi.onEvent(GotIP_Handler, ARDUINO_EVENT_WIFI_STA_GOT_IP);
@@ -51,15 +50,14 @@ void setup() {
 void callback(char *topic, byte *payload, unsigned int length) {
   for (int i = 0; i < length; i++) {
     Serial.write((char)payload[i]);
-    char value = (char)payload[i];
-    sendDataToThingSpeak(String(value));  // Send data to ThingSpeak
+    sendDataToThingSpeak(String((char)payload[i]));  // Send data to ThingSpeak
   }
   Serial.println();
 }
 
 void loop() {
   client.loop();
-  delay(3000);
+  delay(2000);
 }
 
 void ConnectedToAP_Handler(WiFiEvent_t wifi_event, WiFiEventInfo_t wifi_info) {
@@ -84,16 +82,19 @@ void sendDataToThingSpeak(String data) {
   String url = "";
 
   if (data == "1") {
-    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "1" + "&field3=" + "0";
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "1" + "&field3=" + "0"+ "&field4=" + "0";
   }
   if (data == "2") {
-    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "0" + "&field3=" + "1";
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "0" + "&field3=" + "1"+ "&field4=" + "0";
   }
   if (data == "3") {
-    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "1" + "&field3=" + "1";
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "1" + "&field2=" + "1" + "&field3=" + "1"+ "&field4=" + "0";
+  }
+  if (data == "4") {
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "0" + "&field2=" + "0" + "&field3=" + "0"+ "&field4=" + "1";
   }
   if (data == "5") {
-    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "0" + "&field2=" + "0" + "&field3=" + "0";
+    url = String(thingSpeakUrl) + String(thingSpeakApiKey) + "&field1=" + "0" + "&field2=" + "0" + "&field3=" + "0"+ "&field4=" + "0";
   }
 
   // Begin the HTTP request

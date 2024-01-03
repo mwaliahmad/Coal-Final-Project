@@ -11,7 +11,6 @@
  <INCLUDED_FILES>
   <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
   <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc</FILE>
-  <FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\UART_Macros.inc</FILE>
   <FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
@@ -25,12 +24,15 @@
   <FILE>Arduino AVR Code.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <MAIN><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>45</LINE></MAIN>
-  <MID><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>48</LINE></MID>
-  <YELLOW_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>72</LINE></YELLOW_LED>
-  <MAGENTA_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>78</LINE></MAGENTA_LED>
-  <WHITE_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>84</LINE></WHITE_LED>
-  <LOOP_LEDS><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>90</LINE></LOOP_LEDS>
-  <LEDS_OFF><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>66</LINE></LEDS_OFF>
+  <MAIN><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>52</LINE></MAIN>
+  <LEDS_OFF><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>69</LINE></LEDS_OFF>
+  <LOOP_LEDS><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>117</LINE></LOOP_LEDS>
+  <WHITE_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>111</LINE></WHITE_LED>
+  <MAGENTA_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>99</LINE></MAGENTA_LED>
+  <YELLOW_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>93</LINE></YELLOW_LED>
+  <RED_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>75</LINE></RED_LED>
+  <GREEN_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>81</LINE></GREEN_LED>
+  <BLUE_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>87</LINE></BLUE_LED>
+  <CYAN_LED><FILE>D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm</FILE><LINE>105</LINE></CYAN_LED>
  </LABELS>
 </ASSEMBLER_INFO>

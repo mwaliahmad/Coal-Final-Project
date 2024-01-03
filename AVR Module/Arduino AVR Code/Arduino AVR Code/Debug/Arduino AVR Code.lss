@@ -1,16 +1,14 @@
 
-AVRASM ver. 2.2.8  D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm Sat Dec 30 14:18:26 2023
+AVRASM ver. 2.2.8  D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm Tue Jan 02 11:54:48 2024
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(6): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(7): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\UART_Macros.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(8): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc'
+D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
+D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(2): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(6): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(7): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\UART_Macros.inc'
-D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(8): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc'
+D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
+D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.asm(2): Including file 'D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\delay.inc'
                                  
-                                 ; Arduino AVR Code.asm
+                                 .include "m328pdef.inc"
                                  
                                  ;***** Created: 2011-02-09 12:03 ******* Source: ATmega328P.xml **********
                                  ;*************************************************************************
@@ -991,11 +989,6 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
                                  
                                  ; ***** END OF FILE ******************************************************
                                  
-                                 ;
-                                 ; Created: 20/12/2023 13:27:22 pm
-                                 ; Author : Wali
-                                 
-                                 .include "m328pdef.inc"
                                  
                                  ;***** Created: 2011-02-09 12:03 ******* Source: ATmega328P.xml **********
                                  ;*************************************************************************
@@ -1039,506 +1032,6 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
                                  #endif  /* _M328PDEF_INC_ */
                                  
                                  ; ***** END OF FILE ******************************************************
-                                 .include "UART_Macros.inc"
-                                 
-                                 ; UART Serial Read/Write Macros
-                                 ;-------------------------------------------
-                                 
-                                 ; [List of all the available macros in this file]
-                                 ;	Serial_begin
-                                 ;	Serial_writeChar
-                                 ;	Serial_writeReg
-                                 ;	Serial_writeReg_ASCII
-                                 ;	Serial_writeNewLine
-                                 ;	Serial_writeStr
-                                 ;	Serial_writeBuffer
-                                 ;	Serial_writeBuffer_ASCII
-                                 ;	Serial_read
-                                 ;	Serial_readStr		pending
-                                 
-                                 ; Macro to read a single character from the UART
-                                 ; Inputs: register to hold the received character
-                                 ; Outputs: none
-                                 ; Working: receives characters via UART and stores in a register
-                                 ; Registers modified: r16
-                                 .macro Serial_readChar
-                                 	; save the state of R16
-                                 	PUSH            R16
-                                 	Serial_readChar_WAIT:
-                                 	; wait till a character is in the buffer
-                                 	LDS             R16, UCSR0A
-                                 	SBRS            R16, RXC0
-                                 	RJMP            Serial_readChar_WAIT
-                                 	; read the character
-                                 	LDS             @0, UDR0
-                                 	; restore the state of R16 and return
-                                 	POP             R16
-                                 .endmacro
-                                 
-                                 ; Macro to initializes the UART to 9600 BAUD at a frequency of 16 MHz (for Arduino UNO ATmega328p)
-                                 ; Inputs: none
-                                 ; Outputs: none
-                                 ; Working: Initilize the UART protocol
-                                 ; Registers modified: r16.r17
-                                 .macro Serial_begin
-                                 	.equ            F_CPU           = 16000000		; 16Mhz
-                                 	.equ            BAUD_RATE       = 9600
-                                 	.equ            BAUD_PRESCALER  = (F_CPU/(BAUD_RATE * 16)) - 1  ; 103
-                                 	; save the states of R16 and R17
-                                 	PUSH            R16
-                                 	PUSH            R17
-                                 	; initialize UART to 9600 baud
-                                 	LDI             R16, LOW(BAUD_PRESCALER)
-                                 	LDI             R17, HIGH(BAUD_PRESCALER)
-                                 	STS             UBRR0L, R16
-                                 	STS             UBRR0H, R17
-                                 	; enable transmitter and reciever modes
-                                 	LDI             R16, (1<<TXEN0)|(1<<RXEN0)
-                                 	STS             UCSR0B, R16
-                                 	; set parity to none and 8 data bits, etc.
-                                 	LDI             R16, (1<<UCSZ01)|(1<<UCSZ00)
-                                 	STS             UCSR0C, R16
-                                 	; restore the states of R16 and R17 and return
-                                 	POP             R17
-                                 	POP             R16
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to writes a single character (single byte) to the UART
-                                 ; Inputs: an ASCII character as argument
-                                 ; Outputs: none
-                                 ; Working: sends that ASCII value of the character to the UART
-                                 ; Registers modified: r16
-                                 .macro Serial_writeChar
-                                 	; save the state of R16
-                                 	PUSH            R16
-                                 	Serial_writeChar_LOOP:
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	LDS             R16, UCSR0A
-                                 	SBRS            R16, UDRE0
-                                 	RJMP            Serial_writeChar_LOOP
-                                 	; copy the argument to the UDR0 register to be sent out
-                                 	LDI				R16, @0
-                                 	STS             UDR0, R16
-                                 	; restore the state of R16 and return
-                                 	POP             R16
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to writes a single 8-bit register's raw value to the UART
-                                 ; Inputs: register as argument
-                                 ; Outputs: none
-                                 ; Working: sends the raw value of the register to the UART
-                                 ; Registers modified: r16
-                                 .macro Serial_writeReg
-                                 	PUSH r16
-                                 		
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	PUSH r16
-                                 	Serial_writeReg_LOOP_1:
-                                 	LDS             R16, UCSR0A
-                                 	SBRS            R16, UDRE0
-                                 	RJMP            Serial_writeReg_LOOP_1
-                                 	POP r16
-                                 	; Load r16 register value into data register (UDR0) to send to UART
-                                 	mov R16, @0	
-                                 	sts UDR0, R16
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	PUSH r16
-                                 	Serial_writeReg_LOOP_2:
-                                 	LDS             R16, UCSR0A
-                                 	SBRS            R16, UDRE0
-                                 	RJMP            Serial_writeReg_LOOP_2
-                                 	POP r16
-                                 
-                                 	POP r16
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to writes a single 8-bit register's ASCII-encoded value to the UART
-                                 ; Inputs: register as argument
-                                 ; Outputs: none
-                                 ; Working: sends the ASCII-encoded value of the register to the UART
-                                 .macro Serial_writeReg_ASCII
-                                 	PUSH r15
-                                 	PUSH r16
-                                 	PUSH r17
-                                 	PUSH r18
-                                 	PUSH r19
-                                 	PUSH r28
-                                 	PUSH r29
-                                 	PUSH r30
-                                 
-                                 	; Load the received value into r16
-                                 	mov R16, @0
-                                 	mov r19, r16	; take backup of origional value to r19
-                                 
-                                 	PUSH r16
-                                 	Serial_writeReg_ASCII_LOOP:
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	LDS             R16, UCSR0A
-                                 	SBRS            R16, UDRE0
-                                 	RJMP            Serial_writeReg_ASCII_LOOP
-                                 	POP r16
-                                 
-                                 	; Convert the 8-bit (0-255) integer to ASCII encoded integer
-                                 	; by simply spliting it and adding 48 to its individual digits then
-                                 	; send those individual digits to UART
-                                 
-                                 	; Split the integer into individual digits
-                                 	ldi r28, 0          ; Initialize r28 (ones place) to 0
-                                 	ldi r29, 0          ; Initialize r29 (tens place) to 0
-                                 	ldi r30, 0          ; Initialize r30 (hundreds place) to 0
-                                 
-                                 	; Ones place
-                                 	ldi r17, 10         ; Load divisor (10) into r17
-                                 	div					; Divide r16 by 10, result in r16, remainder in r15
-                                 	mov r28, r15        ; Move remainder (ones place) to r28
-                                 
-                                 	; Tens place
-                                 	ldi r17, 10         ; Load divisor (10) into r17
-                                 	div			        ; Divide r16 by 10, result in r16, remainder in r15
-                                 	mov r29, r15        ; Move remainder (tens place) to r29
-                                 
-                                 	; Hundreds place
-                                 	ldi r17, 10         ; Load divisor (10) into r17
-                                 	div			        ; Divide r16 by 10, result in r16, remainder in r15
-                                 	mov r30, r15        ; Move remainder (hundreds place) to r30
-                                 
-                                 	; Now r28 has the ones place, r29 has the tens place, and r30 has the hundreds place
-                                 	; e.g. integer 235 will split into --> r30=2 , r29=3 , r28=5
-                                 
-                                 	LDI r18, 0	; counter for the loop logic
-                                 	LDI r17, 48 ; 48 will be added to each digit to encode it to ASCII integer
-                                 	
-                                 	; loop to send all 3 register r30, r29 and r28 to UART one by one
-                                 	Serial_writeReg_ASCII_writing:	
-                                 	cpi r18, 0
-                                 	BREQ Serial_writeReg_ASCII_writing_L1
-                                 	cpi r18, 1
-                                 	BREQ Serial_writeReg_ASCII_writing_L2
-                                 	cpi r18, 2
-                                 	BREQ Serial_writeReg_ASCII_writing_L3
-                                 	rjmp Serial_writeReg_ASCII_writing_end
-                                 
-                                 	; sending r30 to UART
-                                 	Serial_writeReg_ASCII_writing_L1:
-                                 	CPI r19,100
-                                 	BRLO Serial_writeReg_ASCII_writing_skip	; if the origional number was from 0 to 99, then skip sending r30 to UART
-                                 	add r30, r17
-                                 	mov r16, r30
-                                 	rjmp Serial_writeReg_ASCII_writing_start
-                                 
-                                 	; sending r29 to UART
-                                 	Serial_writeReg_ASCII_writing_L2:
-                                 	CPI r19,10
-                                 	BRLO Serial_writeReg_ASCII_writing_skip	; if the origional number was from 0 to 9, then skip sending r29 as well
-                                 	add r29, r17
-                                 	mov r16, r29
-                                 	rjmp Serial_writeReg_ASCII_writing_start
-                                 
-                                 	; sending r28 to UART
-                                 	Serial_writeReg_ASCII_writing_L3:
-                                 	add r28, r17
-                                 	mov r16, r28
-                                 	rjmp Serial_writeReg_ASCII_writing_start
-                                 
-                                 	Serial_writeReg_ASCII_writing_start:
-                                 		; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 		PUSH r16
-                                 		Serial_writeReg_ASCII_LOOP_1:
-                                 		LDS             R16, UCSR0A
-                                 		SBRS            R16, UDRE0
-                                 		RJMP            Serial_writeReg_ASCII_LOOP_1
-                                 		POP r16
-                                 		; Load r16 register value into data register (UDR0) to send to UART
-                                 		sts UDR0, R16
-                                 		; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 		PUSH r16
-                                 		Serial_writeReg_ASCII_LOOP_2:
-                                 		LDS             R16, UCSR0A
-                                 		SBRS            R16, UDRE0
-                                 		RJMP            Serial_writeReg_ASCII_LOOP_2
-                                 		POP r16
-                                 	
-                                 	Serial_writeReg_ASCII_writing_skip:
-                                 	INC r18
-                                 	rjmp Serial_writeReg_ASCII_writing
-                                 
-                                 	Serial_writeReg_ASCII_writing_end:
-                                 	POP r30
-                                 	POP r29
-                                 	POP r28
-                                 	POP r19
-                                 	POP r18
-                                 	POP r17
-                                 	POP r16
-                                 	POP r15
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to writes a new line character to the UART
-                                 ; Inputs: none
-                                 ; Outputs: none
-                                 ; Working: sends CRLF - carrage return (0x0D) and newline (0x0A) characters to the UART
-                                 ; Registers modified: r16
-                                 .macro Serial_writeNewLine
-                                 	; save the state of R16
-                                 	PUSH            R16
-                                 	Serial_writeNewLine_LOOP1:
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	LDS             R16, UCSR0A
-                                 	SBRS            R16, UDRE0
-                                 	RJMP            Serial_writeNewLine_LOOP1
-                                 	; move value 0x0D (\r) to the UDR0 register to be sent out
-                                 	LDI				R16, 0x0D
-                                 	STS             UDR0, R16
-                                 	Serial_writeNewLine_LOOP2:
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	LDS             R16, UCSR0A
-                                 	SBRS            R16, UDRE0
-                                 	RJMP            Serial_writeNewLine_LOOP2
-                                 	; move value 0x0A (\n) to the UDR0 register to be sent out
-                                 	LDI				R16, 0x0A
-                                 	STS             UDR0, R16
-                                 	; restore the state of R16 and return
-                                 	POP             R16
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to writes a NULL terminated string to the UART 
-                                 ; Inputs: ZH:ZL - SRAM buffer address from where to the string is stored
-                                 ; Outputs: none
-                                 ; Working: sends the string via UART
-                                 ; Registers modified: r16,r17,Z
-                                 ;
-                                 ;	For example:	
-                                 ;		LDI ZL, LOW (2 * hello_string)
-                                 ;		LDI ZH, HIGH (2 * hello_string)
-                                 ;		Serial_writeStr
-                                 ;	
-                                 ;	It is recommanded to define the constent strings at the end of the code segment.
-                                 ;	Optionally you can use CRLF (carriage return/line feed) characters 0x0D and 0x0A at the end of the string
-                                 ;	the string should be terminated with 0.
-                                 ;	The overall length of the string (including CRLF and ending zero) must be even number of bytes.
-                                 ;	e.g.	
-                                 ;			hello_string:	.db	"Hello World",0x0D,0x0A,0
-                                 ;	
-                                 ;	.db directive is used to decalre constants
-                                 ;
-                                 ;	Note: the string length should be in even numbers, if your string length is
-                                 ;		  in odd numbers then add an extra space at the end of the string
-                                 ;		  to make overall string length to even number.
-                                 ;
-                                 .macro Serial_writeStr
-                                 	; save the states of R16 and R17
-                                 	PUSH            R16
-                                 	PUSH            R17
-                                 	Serial_writeStr_LOOP:
-                                 	; load the current byte/character pointed to be Z and increment the Z pointer
-                                 	LPM             R16, Z+
-                                 	; if the current character is 0/NULL, return from the routine since the string has been used
-                                 	CPI             R16, 0
-                                 	BREQ            Serial_writeStr_END
-                                 	Serial_writeStr_CHAR:
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	LDS             R17, UCSR0A
-                                 	SBRS            R17, UDRE0
-                                 	RJMP            Serial_writeStr_CHAR
-                                 	; copy the current character to the UDR0 register to send it out and jump back to the start
-                                 	STS             UDR0, R16
-                                 	RJMP            Serial_writeStr_LOOP
-                                 	Serial_writeStr_END:
-                                 	; restore the states of R16 and R17 and return
-                                 	POP             R17
-                                 	POP             R16
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to writes a buffer (constant integer array, etc.) of a given length (<256 bytes) to the UART
-                                 ; Inputs: ZH:ZL - SRAM buffer address from where to the sending data is placed
-                                 ;		  r20 should have the length of the buffer
-                                 ; Outputs: none
-                                 ; Working: sends the buffer via UART
-                                 ; Registers modified: r16,r17,r20,Z
-                                 ;
-                                 ;For example:	
-                                 ;		LDI ZL, LOW (2 * hello_buffer)
-                                 ;		LDI ZH, HIGH (2 * hello_buffer)
-                                 ;		LDI r20, buffer_len
-                                 ;	
-                                 ;	it is recommanded to define the buffer at the end of the code segment
-                                 ;		hello_buffer:	.db	1,2,3,4,5,6
-                                 ;		len: .equ	buffer_len   = 2 * (len - hello_buffer)
-                                 ;
-                                 ;	.db directive is used to decalre constants
-                                 ;
-                                 ;	Note: the string length should be in even numbers, if your string length is
-                                 ;		  in odd numbers then add an extra space at the end of the string
-                                 ;		  to make overall string length to even number.
-                                 ;
-                                 .macro Serial_writeBuffer
-                                 	; save the states of R16, R17 and r20
-                                 	PUSH            R16
-                                 	PUSH            R17
-                                 	PUSH			R20
-                                 	Serial_writeBuffer_LOOP:
-                                 	; load the current byte pointed to be Z and increment the Z pointer
-                                 	LPM             R16, Z+
-                                 	; check if the remaining size of the buffer is non-zero and return if it is
-                                 	CPI             R20, 0
-                                 	BREQ            Serial_writeBuffer_END
-                                 	Serial_writeBuffer_CHAR:
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	LDS             R17, UCSR0A
-                                 	SBRS            R17, UDRE0
-                                 	RJMP            Serial_writeBuffer_CHAR
-                                 	; copy the current character to the UDR0 register to send it out and jump back to the start
-                                 	STS             UDR0, R16
-                                 	DEC             R20
-                                 	RJMP            Serial_writeBuffer_LOOP
-                                 	Serial_writeBuffer_END:
-                                 	; restore the states of R16, R17 and r20
-                                 	POP				R20
-                                 	POP             R17
-                                 	POP             R16
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to writes an ASCII-encoded buffer (constant integer array, etc.) of a given length (<256 bytes) to the UART
-                                 ; Inputs: ZH:ZL - SRAM buffer address from where to the sending data is placed
-                                 ;		  r20 should have the length of the buffer
-                                 ; Outputs: none
-                                 ; Working: sends the buffer via UART
-                                 ; Registers modified: r16,r17,r20,Z
-                                 ;
-                                 ;For example:	
-                                 ;		LDI ZL, LOW (2 * hello_buffer)
-                                 ;		LDI ZH, HIGH (2 * hello_buffer)
-                                 ;		LDI r20, buffer_len
-                                 ;	
-                                 ;	it is recommanded to define the buffer at the end of the code segment
-                                 ;		hello_buffer:	.db	1,2,3,4,5,6
-                                 ;		len: .equ	buffer_len   = 2 * (len - hello_buffer)
-                                 ;
-                                 ;	.db directive is used to decalre constants
-                                 ;
-                                 ;	Note: the string length should be in even numbers, if your string length is
-                                 ;		  in odd numbers then add an extra space at the end of the string
-                                 ;		  to make overall string length to even number.
-                                 ;
-                                 .macro Serial_writeBuffer_ASCII
-                                 	; save the states of R16, R17 and r20
-                                 	PUSH            R16
-                                 	PUSH            R17
-                                 	PUSH			R18
-                                 	PUSH			R20
-                                 
-                                 	LDI r18, 48 ; 48 will be added to each digit to encode it to ASCII integer
-                                 
-                                 	Serial_writeBuffer_LOOP:
-                                 	; load the current byte pointed to be Z and increment the Z pointer
-                                 	LPM             R16, Z+
-                                 	add r16, r18		; convert to ASCII encoded integer
-                                 	; check if the remaining size of the buffer is non-zero and return if it is
-                                 	CPI             R20, 0
-                                 	BREQ            Serial_writeBuffer_END
-                                 	Serial_writeBuffer_CHAR:
-                                 	; wait for the write buffer to become empty (bit UDRE0 of UCSR0A register should be set)
-                                 	LDS             R17, UCSR0A
-                                 	SBRS            R17, UDRE0
-                                 	RJMP            Serial_writeBuffer_CHAR
-                                 	; copy the current character to the UDR0 register to send it out and jump back to the start
-                                 	STS             UDR0, R16
-                                 	DEC             R20
-                                 	RJMP            Serial_writeBuffer_LOOP
-                                 	Serial_writeBuffer_END:
-                                 	; restore the states of R16, R17 and r20
-                                 	POP				R20
-                                 	POP				R18
-                                 	POP             R17
-                                 	POP             R16
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to read a single byte from the UART
-                                 ; Inputs: register to hold the received byte
-                                 ; Outputs: r16
-                                 ; Working: receives byte via UART and stores in a r16 register
-                                 .macro Serial_read
-                                 
-                                 	;Serial_read_WAIT:
-                                 	; wait till a byte is in the buffer
-                                 	LDS             R16, UCSR0A
-                                 	SBRS            R16, RXC0
-                                 	RJMP            Serial_read_Skip
-                                 	;RJMP            Serial_read_WAIT
-                                 
-                                 	Serial_read_Start:
-                                 	; read the byte
-                                 	LDS             r16, UDR0
-                                 
-                                 	rjmp Serial_read_END
-                                 	Serial_read_Skip:
-                                 	LDI				r16,0
-                                 	Serial_read_END:
-                                 .endmacro
-                                 
-                                 
-                                 ; Macro to receive a string from the UART and store in variable (array)
-                                 ; Inputs: ZH:ZL - SRAM buffer address for received string
-                                 ; Outputs: r16 will contain 0 if no data received
-                                 ; Working: receives string via UART and stores in data memory until carriage return (0x0D) received
-                                 ; Registers modified: r16, r17, XL, XH
-                                 ;
-                                 ;	For example:
-                                 ;		.dseg
-                                 ;		.org SRAM_START
-                                 ;			buffer:	.byte	20		; 20 bytes reserved
-                                 ;		.cseg
-                                 ;		.org 0x0000
-                                 ;			LDI ZL, LOW (buffer)
-                                 ;			LDI ZH, HIGH (buffer)
-                                 ;			Serial_readStr
-                                 ;
-                                 .macro Serial_readStr
-                                 	; save the state of R17
-                                 	PUSH			R17
-                                 	
-                                 	;Serial_readStr_WAIT:
-                                 	; wait till a byte is in the buffer
-                                 	LDS             r16, UCSR0A
-                                 	SBRS            r16, RXC0
-                                 	RJMP            Serial_readStr_Skip
-                                 	;RJMP            Serial_readStr_WAIT
-                                 
-                                 	Serial_readStr_Start:
-                                 	lds		r16, UDR0				; get received character
-                                 
-                                 	cpi		r16, 0x0D				; check if received char is CR
-                                 	breq	Serial_readStr_END		; branch if CR received
-                                 
-                                 	st	Z+, r16						; store character to buffer
-                                 	rjmp Serial_readStr_Start		; get another character
-                                 
-                                 
-                                 	Serial_readStr_Skip:
-                                 	LDI				r16, 0			; set r16 to 0 if there is no data on UART
-                                 	rjmp Serial_readStr_Skip2
-                                 	Serial_readStr_END:
-                                 	LDI				r16, 1			; set r16 to 1 if data is received on UART
-                                 	Serial_readStr_Skip2:
-                                 	POP				R17
-                                 .endmacro
-                                 
-                                 
-                                 
-                                 
-                                 ; ***************************************************************************
-                                 ; *		Macros written by:													*
-                                 ; *			Syed Tehseen ul Hasan Shah										*
-                                 ; *			Lecturer, University of Engineering and Technology Lahore.		*
-                                 ; *			24-December-2023												*
                                  .include "delay.inc"
                                  
                                   * delay.inc
@@ -1564,320 +1057,487 @@ D:\Github\Coal Final Project\AVR Module\Arduino AVR Code\Arduino AVR Code\main.a
                                  	pop r24
                                  	pop r18
                                  
-                                 .def UART_CHAR = r21
+                                 ; Arduino AVR Code.asm
+                                 ;
+                                 ; Created: 14/12/2023 11:20:22 pm
+                                 ; Author : Wali
                                  
+                                 .cseg
                                  .org 0x00
-                                 					; UART Configuration
-000000 9a51                      	SBI DDRD, PD1 ; Set PD1 (TX) as Output
-000001 9859                      	CBI PORTD, PD1 ; TX Low (initial state)
-000002 9850                      	CBI DDRD, PD0 ; Set PD0 (RX) as Input
-000003 9a58                      	SBI PORTD, PD0 ; Enable Pull-up Resistor on RX
-000004 930f
-000005 931f
-000006 e607
-000007 e010
-000008 9300 00c4
-00000a 9310 00c5
-00000c e108
-00000d 9300 00c1
-00000f e006
-000010 9300 00c2
-000012 911f
-000013 910f                      	Serial_begin ; Initialize UART Protocol
-                                 	
-                                 					; OUTPUT CONFIGURATION
-000014 9a21                      	SBI DDRB, PB1 ; PB1 set as OUTPUT Pin RED LIGHT
-000015 9829                      	CBI PORTB, PB1 ; LED OFF
+                                 					;INPUT CONFIGURATION
+000000 9852                      	CBI DDRD, PD2 ; PB5 SET AS INPUT PIN FOR YELLOW LIGHT
+000001 9a5a                      	SBI PORTD, PD2 ; Enable internal pull-up resistor
                                  
-000016 9a22                      	SBI DDRB, PB2 ; PB2 set as OUTPUT Pin GREEN LIGHT
-000017 982a                      	CBI PORTB, PB2 ; LED OFF
+000002 9853                      	CBI DDRD, PD3 ; PB4 SET AS INPUT PIN FOR MAGENTA LIGHT
+000003 9a5b                      	SBI PORTD, PD3 ; Enable internal pull-up resistor
                                  
-000018 9a23                      	SBI DDRB, PB3 ; PB3 set as OUTPUT Pin BLUE LIGHT
-000019 982b                      	CBI PORTB, PB3 ; LED OFF
+000004 9854                      	CBI DDRD, PD4 ; PD7 SET AS INPUT PIN FOR WHITE LIGHT
+000005 9a5c                      	SBI PORTD, PD4 ; Enable internal pull-up resistor
+                                 
+000006 9855                      	CBI DDRD, PD5 ; PD6 SET AS INPUT PIN FOR ON AND OFF ALL LIGHTS IN LOOP
+000007 9a5d                      	SBI PORTD, PD5 ; Enable internal pull-up resistor
+                                 
+000008 9856                      	CBI DDRD, PD6 ; PD6 SET AS INPUT PIN FOR OFF ALL LIGHTS
+000009 9a5e                      	SBI PORTD, PD6 ; Enable internal pull-up resistor
+                                 
+                                 					;OUTPUT CONFIGURATION
+00000a 9a21                      	SBI DDRB, PB1 ; PB1 set as OUTPUT Pin RED LIGHT
+00000b 9829                      	CBI PORTB, PB1 ; LED OFF
+                                 
+00000c 9a22                      	SBI DDRB, PB2 ; PB2 set as OUTPUT Pin GREEN LIGHT
+00000d 982a                      	CBI PORTB, PB2 ; LED OFF
+                                 
+00000e 9a23                      	SBI DDRB, PB3 ; PB3 set as OUTPUT Pin BLUE LIGHT
+00000f 982b                      	CBI PORTB, PB3 ; LED OFF
                                  	
-00001a 9a24                      	SBI DDRB, PB4 ; PB3 set as OUTPUT Pin for BUZZER
+000010 9a24                      	SBI DDRB, PB4 ; PB3 set as OUTPUT Pin for BUZZER
                                  	
-00001b 9a2c                      	SBI PORTB, PB4 ; TURN BUZZER ON
-00001c 932f
-00001d 938f
-00001e 939f
-00001f e926
-000020 e38e
-000021 e99c
-000022 9701
-000023 f7f1
-000024 952a
-000025 f7d1
-000026 0000
-000027 919f
-000028 918f
-000029 912f                      	delay 1500
-00002a 932f
-00002b 938f
-00002c 939f
-00002d e926
-00002e e38e
-00002f e99c
-000030 9701
-000031 f7f1
-000032 952a
-000033 f7d1
-000034 0000
-000035 919f
-000036 918f
-000037 912f                      	delay 1500
-000038 982c                      	CBI PORTB, PB4 ; TURN BUZZER OFF
+000011 9a2c                      	SBI PORTB, PB4 ; TURN BUZZER ON
+000012 932f
+000013 938f
+000014 939f
+000015 e926
+000016 e38e
+000017 e99c
+000018 9701
+000019 f7f1
+00001a 952a
+00001b f7d1
+00001c 0000
+00001d 919f
+00001e 918f
+00001f 912f                      	delay 1500
+000020 932f
+000021 938f
+000022 939f
+000023 e926
+000024 e38e
+000025 e99c
+000026 9701
+000027 f7f1
+000028 952a
+000029 f7d1
+00002a 0000
+00002b 919f
+00002c 918f
+00002d 912f                      	delay 1500
+00002e 982c                      	CBI PORTB, PB4 ; TURN BUZZER OFF
                                  	
-000039 9a29                      	SBI PORTB, PB1	;RED LED ON
-00003a 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-00003b 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
-00003c 932f
-00003d 938f
-00003e 939f
-00003f ec28
-000040 e38e
-000041 e99c
-000042 9701
-000043 f7f1
-000044 952a
-000045 f7d1
-000046 0000
-000047 919f
-000048 918f
-000049 912f                      	delay 2000
-00004a 9829                      	CBI PORTB, PB1	;RED LED OFF
-00004b 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-00004c 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+00002f 9a29                      	SBI PORTB, PB1	;RED LED ON
+000030 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+000031 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+000032 932f
+000033 938f
+000034 939f
+000035 ec28
+000036 e38e
+000037 e99c
+000038 9701
+000039 f7f1
+00003a 952a
+00003b f7d1
+00003c 0000
+00003d 919f
+00003e 918f
+00003f 912f                      	delay 2000
+000040 9829                      	CBI PORTB, PB1	;RED LED ON
+000041 982a                      	CBI PORTB, PB2	;GREEN LED ON
+000042 982b                      	CBI PORTB, PB3	;BLUE LED ON
                                  
                                  MAIN:
-00004d 930f
-00004e 9100 00c0
-000050 ff07
-000051 cffc
-000052 9150 00c6
-000054 910f                      	Serial_readChar UART_CHAR
-                                 
-                                 MID:	
-000055 3351                      	CPI UART_CHAR, '1'	; Yellow COLOR
-000056 f069                          BREQ YELLOW_LED
-                                 
-000057 3352                          CPI UART_CHAR, '2'  ; Magenta COLOR
-000058 f079                          BREQ MAGENTA_LED
-                                 
-000059 3353                      	CPI UART_CHAR, '3'	; White COLOR
-00005a f089                          BREQ WHITE_LED
-                                 
-00005b 3354                      	CPI UART_CHAR, '4'  ; Loop LEDs
-00005c f099                          BREQ LOOP_LEDS
-                                 
-00005d 3355                      	CPI UART_CHAR, '5'  ; OFF LEDs
-00005e f009                          BREQ LEDS_OFF
-                                 
-00005f cfed                      rjmp MAIN
+000043 9b4e                      	SBIS PIND, PD6
+000044 c009                      	rjmp LEDS_OFF
+                                 		
+000045 9b4d                      	SBIS PIND, PD5
+000046 c027                      	rjmp LOOP_LEDS
+                                 	
+000047 9b4c                      	SBIS PIND, PD4
+000048 c021                      	rjmp WHITE_LED
+                                 	
+000049 9b4b                      	SBIS PIND, PD3
+00004a c017                      	rjmp MAGENTA_LED
+                                 	
+00004b 9b4a                      	SBIS PIND, PD2
+00004c c011                      	rjmp YELLOW_LED
+00004d cff5                      rjmp MAIN
                                  
                                  LEDS_OFF:
-000060 9829                      	CBI PORTB, PB1	;RED LED OFF
-000061 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000062 982b                      	CBI PORTB, PB3	;BLUE LED OFF
-000063 cfe9                          rjmp MAIN
+00004e 9829                      	CBI PORTB, PB1	;RED LED OFF
+00004f 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000050 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+000051 cff1                      rjmp MAIN
+                                 
+                                 RED_LED:
+000052 9a29                      	SBI PORTB, PB1	;RED LED ON
+000053 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000054 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+000055 cfed                      rjmp MAIN
+                                 
+                                 GREEN_LED:
+000056 9829                      	CBI PORTB, PB1	;RED LED OFF
+000057 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+000058 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+000059 cfe9                      rjmp MAIN
+                                 
+                                 BLUE_LED:
+00005a 9829                      	CBI PORTB, PB1	;RED LED OFF
+00005b 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+00005c 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+00005d cfe5                      rjmp MAIN
                                  
                                  YELLOW_LED:
-000064 9a29                      	SBI PORTB, PB1	;RED LED ON
-000065 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-000066 982b                      	CBI PORTB, PB3	;BLUE LED OFF
-000067 cfe5                          rjmp MAIN
+00005e 9a29                      	SBI PORTB, PB1	;RED LED ON
+00005f 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+000060 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+000061 cfe1                      rjmp MAIN
                                  
                                  MAGENTA_LED:
-000068 9a29                      	SBI PORTB, PB1	;RED LED ON
-000069 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-00006a 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
-00006b cfe1                          rjmp MAIN
+000062 9a29                      	SBI PORTB, PB1	;RED LED ON
+000063 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000064 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+000065 cfdd                      rjmp MAIN
+                                 
+                                 CYAN_LED:
+000066 9829                      	CBI PORTB, PB1	;RED LED OFF
+000067 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+000068 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+000069 cfd9                      rjmp MAIN
                                  
                                  WHITE_LED:
-00006c 9a29                      	SBI PORTB, PB1	;RED LED ON
-00006d 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-00006e 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
-00006f cfdd                          rjmp MAIN
+00006a 9a29                      	SBI PORTB, PB1	;RED LED ON
+00006b 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+00006c 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+00006d cfd5                      rjmp MAIN
                                  
                                  LOOP_LEDS:
-000070 930f
-000071 9100 00c0
-000073 ff07
-000074 cffc
-000075 9150 00c6
-000077 910f                      	Serial_readChar UART_CHAR
+00006e 9a29                      	SBI PORTB, PB1	;RED LED ON
+00006f 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000070 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+                                 	
+000071 9b4e                      	SBIS PIND, PD6
+000072 cfd0                      	rjmp MAIN
+000073 9b4d                      	SBIS PIND, PD5
+000074 cfce                      	rjmp MAIN
+000075 9b4c                      	SBIS PIND, PD4
+000076 cfcc                      	rjmp MAIN
+000077 9b4b                      	SBIS PIND, PD3
+000078 cfca                      	rjmp MAIN
+000079 9b4a                      	SBIS PIND, PD2
+00007a cfc8                      	rjmp MAIN
                                  
-000078 3351                      	CPI UART_CHAR, '1'	; Yellow COLOR
-000079 f2d9                          BREQ MID
+00007b 932f
+00007c 938f
+00007d 939f
+00007e e322
+00007f e38e
+000080 e99c
+000081 9701
+000082 f7f1
+000083 952a
+000084 f7d1
+000085 0000
+000086 919f
+000087 918f
+000088 912f                      	delay 500
                                  
-00007a 3352                          CPI UART_CHAR, '2'  ; Magenta COLOR
-00007b f2c9                          BREQ MID
+000089 9b4e                      	SBIS PIND, PD6
+00008a cfb8                      	rjmp MAIN
+00008b 9b4d                      	SBIS PIND, PD5
+00008c cfb6                      	rjmp MAIN
+00008d 9b4c                      	SBIS PIND, PD4
+00008e cfb4                      	rjmp MAIN
+00008f 9b4b                      	SBIS PIND, PD3
+000090 cfb2                      	rjmp MAIN
+000091 9b4a                      	SBIS PIND, PD2
+000092 cfb0                      	rjmp MAIN
                                  
-00007c 3353                      	CPI UART_CHAR, '3'	; White COLOR
-00007d f2b9                          BREQ MID
+000093 9829                      	CBI PORTB, PB1	;RED LED OFF
+000094 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+000095 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  
-00007e 3355                      	CPI UART_CHAR, '5'  ; OFF LEDs
-00007f f2a9                          BREQ MID
+000096 9b4e                      	SBIS PIND, PD6
+000097 cfab                      	rjmp MAIN
+000098 9b4d                      	SBIS PIND, PD5
+000099 cfa9                      	rjmp MAIN
+00009a 9b4c                      	SBIS PIND, PD4
+00009b cfa7                      	rjmp MAIN
+00009c 9b4b                      	SBIS PIND, PD3
+00009d cfa5                      	rjmp MAIN
+00009e 9b4a                      	SBIS PIND, PD2
+00009f cfa3                      	rjmp MAIN
                                  
-000080 9a29                      	SBI PORTB, PB1	;RED LED ON
-000081 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000082 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+0000a0 932f
+0000a1 938f
+0000a2 939f
+0000a3 e322
+0000a4 e38e
+0000a5 e99c
+0000a6 9701
+0000a7 f7f1
+0000a8 952a
+0000a9 f7d1
+0000aa 0000
+0000ab 919f
+0000ac 918f
+0000ad 912f                      	delay 500
                                  
-000083 932f
-000084 938f
-000085 939f
-000086 e322
-000087 e38e
-000088 e99c
-000089 9701
-00008a f7f1
-00008b 952a
-00008c f7d1
-00008d 0000
-00008e 919f
-00008f 918f
-000090 912f                      	delay 500
+0000ae 9b4e                      	SBIS PIND, PD6
+0000af cf93                      	rjmp MAIN
+0000b0 9b4d                      	SBIS PIND, PD5
+0000b1 cf91                      	rjmp MAIN
+0000b2 9b4c                      	SBIS PIND, PD4
+0000b3 cf8f                      	rjmp MAIN
+0000b4 9b4b                      	SBIS PIND, PD3
+0000b5 cf8d                      	rjmp MAIN
+0000b6 9b4a                      	SBIS PIND, PD2
+0000b7 cf8b                      	rjmp MAIN
                                  
-000091 9829                      	CBI PORTB, PB1	;RED LED OFF
-000092 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-000093 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+0000b8 9829                      	CBI PORTB, PB1	;RED LED OFF
+0000b9 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+0000ba 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-000094 932f
-000095 938f
-000096 939f
-000097 e322
-000098 e38e
-000099 e99c
-00009a 9701
-00009b f7f1
-00009c 952a
-00009d f7d1
-00009e 0000
-00009f 919f
-0000a0 918f
-0000a1 912f                      	delay 500
+0000bb 9b4e                      	SBIS PIND, PD6
+0000bc cf86                      	rjmp MAIN
+0000bd 9b4d                      	SBIS PIND, PD5
+0000be cf84                      	rjmp MAIN
+0000bf 9b4c                      	SBIS PIND, PD4
+0000c0 cf82                      	rjmp MAIN
+0000c1 9b4b                      	SBIS PIND, PD3
+0000c2 cf80                      	rjmp MAIN
+0000c3 9b4a                      	SBIS PIND, PD2
+0000c4 cf7e                      	rjmp MAIN
                                  
-0000a2 9829                      	CBI PORTB, PB1	;RED LED OFF
-0000a3 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-0000a4 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+0000c5 932f
+0000c6 938f
+0000c7 939f
+0000c8 e322
+0000c9 e38e
+0000ca e99c
+0000cb 9701
+0000cc f7f1
+0000cd 952a
+0000ce f7d1
+0000cf 0000
+0000d0 919f
+0000d1 918f
+0000d2 912f                      	delay 500
                                  
-0000a5 932f
-0000a6 938f
-0000a7 939f
-0000a8 e322
-0000a9 e38e
-0000aa e99c
-0000ab 9701
-0000ac f7f1
-0000ad 952a
-0000ae f7d1
-0000af 0000
-0000b0 919f
-0000b1 918f
-0000b2 912f                      	delay 500
+0000d3 9b4e                      	SBIS PIND, PD6
+0000d4 cf6e                      	rjmp MAIN
+0000d5 9b4d                      	SBIS PIND, PD5
+0000d6 cf6c                      	rjmp MAIN
+0000d7 9b4c                      	SBIS PIND, PD4
+0000d8 cf6a                      	rjmp MAIN
+0000d9 9b4b                      	SBIS PIND, PD3
+0000da cf68                      	rjmp MAIN
+0000db 9b4a                      	SBIS PIND, PD2
+0000dc cf66                      	rjmp MAIN
                                  
-0000b3 9a29                      	SBI PORTB, PB1	;RED LED ON
-0000b4 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-0000b5 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+0000dd 9a29                      	SBI PORTB, PB1	;RED LED ON
+0000de 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+0000df 982b                      	CBI PORTB, PB3	;BLUE LED OFF
                                  
-0000b6 932f
-0000b7 938f
-0000b8 939f
-0000b9 e322
-0000ba e38e
-0000bb e99c
-0000bc 9701
-0000bd f7f1
-0000be 952a
-0000bf f7d1
-0000c0 0000
-0000c1 919f
-0000c2 918f
-0000c3 912f                      	delay 500
+0000e0 9b4e                      	SBIS PIND, PD6
+0000e1 cf61                      	rjmp MAIN
+0000e2 9b4d                      	SBIS PIND, PD5
+0000e3 cf5f                      	rjmp MAIN
+0000e4 9b4c                      	SBIS PIND, PD4
+0000e5 cf5d                      	rjmp MAIN
+0000e6 9b4b                      	SBIS PIND, PD3
+0000e7 cf5b                      	rjmp MAIN
+0000e8 9b4a                      	SBIS PIND, PD2
+0000e9 cf59                      	rjmp MAIN
                                  
-0000c4 9a29                      	SBI PORTB, PB1	;RED LED ON
-0000c5 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-0000c6 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+0000ea 932f
+0000eb 938f
+0000ec 939f
+0000ed e322
+0000ee e38e
+0000ef e99c
+0000f0 9701
+0000f1 f7f1
+0000f2 952a
+0000f3 f7d1
+0000f4 0000
+0000f5 919f
+0000f6 918f
+0000f7 912f                      	delay 500
                                  
-0000c7 932f
-0000c8 938f
-0000c9 939f
-0000ca e322
-0000cb e38e
-0000cc e99c
-0000cd 9701
-0000ce f7f1
-0000cf 952a
-0000d0 f7d1
-0000d1 0000
-0000d2 919f
-0000d3 918f
-0000d4 912f                      	delay 500
+0000f8 9b4e                      	SBIS PIND, PD6
+0000f9 cf49                      	rjmp MAIN
+0000fa 9b4d                      	SBIS PIND, PD5
+0000fb cf47                      	rjmp MAIN
+0000fc 9b4c                      	SBIS PIND, PD4
+0000fd cf45                      	rjmp MAIN
+0000fe 9b4b                      	SBIS PIND, PD3
+0000ff cf43                      	rjmp MAIN
+000100 9b4a                      	SBIS PIND, PD2
+000101 cf41                      	rjmp MAIN
                                  
-0000d5 9829                      	CBI PORTB, PB1	;RED LED OFF
-0000d6 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-0000d7 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+000102 9a29                      	SBI PORTB, PB1	;RED LED ON
+000103 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000104 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-0000d8 932f
-0000d9 938f
-0000da 939f
-0000db e322
-0000dc e38e
-0000dd e99c
-0000de 9701
-0000df f7f1
-0000e0 952a
-0000e1 f7d1
-0000e2 0000
-0000e3 919f
-0000e4 918f
-0000e5 912f                      	delay 500
+000105 9b4e                      	SBIS PIND, PD6
+000106 cf3c                      	rjmp MAIN
+000107 9b4d                      	SBIS PIND, PD5
+000108 cf3a                      	rjmp MAIN
+000109 9b4c                      	SBIS PIND, PD4
+00010a cf38                      	rjmp MAIN
+00010b 9b4b                      	SBIS PIND, PD3
+00010c cf36                      	rjmp MAIN
+00010d 9b4a                      	SBIS PIND, PD2
+00010e cf34                      	rjmp MAIN
                                  
-0000e6 9a29                      	SBI PORTB, PB1	;RED LED ON
-0000e7 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
-0000e8 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+00010f 932f
+000110 938f
+000111 939f
+000112 e322
+000113 e38e
+000114 e99c
+000115 9701
+000116 f7f1
+000117 952a
+000118 f7d1
+000119 0000
+00011a 919f
+00011b 918f
+00011c 912f                      	delay 500
                                  
-0000e9 932f
-0000ea 938f
-0000eb 939f
-0000ec e322
-0000ed e38e
-0000ee e99c
-0000ef 9701
-0000f0 f7f1
-0000f1 952a
-0000f2 f7d1
-0000f3 0000
-0000f4 919f
-0000f5 918f
-0000f6 912f                      	delay 500
+00011d 9b4e                      	SBIS PIND, PD6
+00011e cf24                      	rjmp MAIN
+00011f 9b4d                      	SBIS PIND, PD5
+000120 cf22                      	rjmp MAIN
+000121 9b4c                      	SBIS PIND, PD4
+000122 cf20                      	rjmp MAIN
+000123 9b4b                      	SBIS PIND, PD3
+000124 cf1e                      	rjmp MAIN
+000125 9b4a                      	SBIS PIND, PD2
+000126 cf1c                      	rjmp MAIN
                                  
-0000f7 930f
-0000f8 9100 00c0
-0000fa ff07
-0000fb cffc
-0000fc 9150 00c6
-0000fe 910f                      	Serial_readChar UART_CHAR
+000127 9a29                      	SBI PORTB, PB1	;RED LED ON
+000128 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000129 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
                                  
-0000ff 9829                      	CBI PORTB, PB1	;RED LED OFF
-000100 982a                      	CBI PORTB, PB2	;GREEN LED OFF
-000101 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+00012a 9b4e                      	SBIS PIND, PD6
+00012b cf17                      	rjmp MAIN
+00012c 9b4d                      	SBIS PIND, PD5
+00012d cf15                      	rjmp MAIN
+00012e 9b4c                      	SBIS PIND, PD4
+00012f cf13                      	rjmp MAIN
+000130 9b4b                      	SBIS PIND, PD3
+000131 cf11                      	rjmp MAIN
+000132 9b4a                      	SBIS PIND, PD2
+000133 cf0f                      	rjmp MAIN
                                  
-000102 932f
-000103 938f
-000104 939f
-000105 e322
-000106 e38e
-000107 e99c
-000108 9701
-000109 f7f1
-00010a 952a
-00010b f7d1
-00010c 0000
-00010d 919f
-00010e 918f
-00010f 912f                      	delay 500
-                                     
+000134 932f
+000135 938f
+000136 939f
+000137 e322
+000138 e38e
+000139 e99c
+00013a 9701
+00013b f7f1
+00013c 952a
+00013d f7d1
+00013e 0000
+00013f 919f
+000140 918f
+000141 912f                      	delay 500
+                                 
+000142 9b4e                      	SBIS PIND, PD6
+000143 ceff                      	rjmp MAIN
+000144 9b4d                      	SBIS PIND, PD5
+000145 cefd                      	rjmp MAIN
+000146 9b4c                      	SBIS PIND, PD4
+000147 cefb                      	rjmp MAIN
+000148 9b4b                      	SBIS PIND, PD3
+000149 cef9                      	rjmp MAIN
+00014a 9b4a                      	SBIS PIND, PD2
+00014b cef7                      	rjmp MAIN
+                                 
+00014c 9a29                      	SBI PORTB, PB1	;RED LED ON
+00014d 9a2a                      	SBI PORTB, PB2	;GREEN LED ON
+00014e 9a2b                      	SBI PORTB, PB3	;BLUE LED ON
+                                 
+00014f 9b4e                      	SBIS PIND, PD6
+000150 cef2                      	rjmp MAIN
+000151 9b4d                      	SBIS PIND, PD5
+000152 cef0                      	rjmp MAIN
+000153 9b4c                      	SBIS PIND, PD4
+000154 ceee                      	rjmp MAIN
+000155 9b4b                      	SBIS PIND, PD3
+000156 ceec                      	rjmp MAIN
+000157 9b4a                      	SBIS PIND, PD2
+000158 ceea                      	rjmp MAIN
+                                 
+000159 932f
+00015a 938f
+00015b 939f
+00015c e322
+00015d e38e
+00015e e99c
+00015f 9701
+000160 f7f1
+000161 952a
+000162 f7d1
+000163 0000
+000164 919f
+000165 918f
+000166 912f                      	delay 500
+                                 
+000167 9b4e                      	SBIS PIND, PD6
+000168 ceda                      	rjmp MAIN
+000169 9b4d                      	SBIS PIND, PD5
+00016a ced8                      	rjmp MAIN
+00016b 9b4c                      	SBIS PIND, PD4
+00016c ced6                      	rjmp MAIN
+00016d 9b4b                      	SBIS PIND, PD3
+00016e ced4                      	rjmp MAIN
+00016f 9b4a                      	SBIS PIND, PD2
+000170 ced2                      	rjmp MAIN
+                                 
+000171 9829                      	CBI PORTB, PB1	;RED LED OFF
+000172 982a                      	CBI PORTB, PB2	;GREEN LED OFF
+000173 982b                      	CBI PORTB, PB3	;BLUE LED OFF
+                                 
+000174 9b4e                      	SBIS PIND, PD6
+000175 cecd                      	rjmp MAIN
+000176 9b4d                      	SBIS PIND, PD5
+000177 cecb                      	rjmp MAIN
+000178 9b4c                      	SBIS PIND, PD4
+000179 cec9                      	rjmp MAIN
+00017a 9b4b                      	SBIS PIND, PD3
+00017b cec7                      	rjmp MAIN
+00017c 9b4a                      	SBIS PIND, PD2
+00017d cec5                      	rjmp MAIN
+                                 
+00017e 932f
+00017f 938f
+000180 939f
+000181 e322
+000182 e38e
+000183 e99c
+000184 9701
+000185 f7f1
+000186 952a
+000187 f7d1
+000188 0000
+000189 919f
+00018a 918f
+00018b 912f                      	delay 500
+                                 
+00018c 9b4e                      	SBIS PIND, PD6
+00018d ceb5                      	rjmp MAIN
+00018e 9b4d                      	SBIS PIND, PD5
+00018f ceb3                      	rjmp MAIN
+000190 9b4c                      	SBIS PIND, PD4
+000191 ceb1                      	rjmp MAIN
+000192 9b4b                      	SBIS PIND, PD3
+000193 ceaf                      	rjmp MAIN
+000194 9b4a                      	SBIS PIND, PD2
+000195 cead                      	rjmp MAIN
+                                 	 
 
 
 RESOURCE USE INFORMATION
@@ -1897,37 +1557,37 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  20 r17:   4 r18:  44 r19:   0 r20:   0 
-r21:  12 r22:   0 r23:   0 r24:  44 r25:  33 r26:   0 r27:   0 r28:   0 
+r13:   0 r14:   0 r15:   0 r16:   0 r17:   0 r18:  44 r19:   0 r20:   0 
+r21:   0 r22:   0 r23:   0 r24:  44 r25:  33 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
-Registers used: 6 out of 35 (17.1%)
+Registers used: 3 out of 35 (8.6%)
 
 "ATmega328P" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   0 brcs  :   0 break :   0 breq  :   9 brge  :   0 brhc  :   0 
+brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :  22 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :  26 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :  36 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   9 cpse  :   0 dec   :  11 eor   :   0 fmul  :   0 fmuls :   0 
+cpi   :   0 cpse  :   0 dec   :  11 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   0 
-ld    :   0 ldd   :   0 ldi   :  37 lds   :   6 lpm   :   0 lsl   :   0 
+ld    :   0 ldd   :   0 ldi   :  33 lds   :   0 lpm   :   0 lsl   :   0 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :  11 or    :   0 ori   :   0 out   :   0 pop   :  38 
-push  :  38 rcall :   0 ret   :   0 reti  :   0 rjmp  :   9 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :  29 sbic  :   0 sbis  :   0 
-sbiw  :  11 sbr   :   0 sbrc  :   0 sbrs  :   3 sec   :   0 seh   :   0 
+neg   :   0 nop   :  11 or    :   0 ori   :   0 out   :   0 pop   :  33 
+push  :  33 rcall :   0 ret   :   0 reti  :   0 rjmp  :  95 rol   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :  37 sbic  :   0 sbis  :  85 
+sbiw  :  11 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   4 
+sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-Instructions used: 15 out of 113 (13.3%)
+Instructions used: 11 out of 113 (9.7%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000222    546      0    546   32768   1.7%
+[.cseg] 0x000000 0x00032e    814      0    814   32768   2.5%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

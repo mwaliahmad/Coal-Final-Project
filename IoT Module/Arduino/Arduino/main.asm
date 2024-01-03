@@ -1,4 +1,3 @@
-;
 ; Arduino.asm
 ;
 ; Created: 30/12/2023 2:36:44 pm
@@ -50,7 +49,7 @@ MAIN:
 
 MID:
 	CPI UART_CHAR, '1'	; Yellow COLOR
-    BREQ YELLOW_LED
+	BREQ YELLOW_LED
 
     CPI UART_CHAR, '2'  ; Magenta COLOR
     BREQ MAGENTA_LED

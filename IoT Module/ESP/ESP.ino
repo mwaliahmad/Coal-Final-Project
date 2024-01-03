@@ -3,11 +3,11 @@
 #include <HTTPClient.h>
 
 // WiFi
-const char *ssid = "OPPO A5 2020";   // Enter your Wi-Fi name
-const char *password = "waliahmad";  // Enter Wi-Fi password
+const char *ssid = "Leena";   // Enter your Wi-Fi name
+const char *password = "11223344";  // Enter Wi-Fi password
 
 // MQTT Broker
-const char *mqtt_broker = "test.mosquitto.org";
+const char *mqtt_broker = "Broker.hivemq.com";
 const char *topic = "rgb";
 const char *mqtt_username = "";
 const char *mqtt_password = "";
